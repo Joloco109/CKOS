@@ -1,8 +1,11 @@
 #include "MissionInfo.h"
 
-MissionInfo::MissionInfo(std::shared_ptr<krpc::services::SpaceCenter> _spacecenter, std::shared_ptr<krpc::services::SpaceCenter::Vessel> _vessel)
+using krpc::services::SpaceCenter;
+using krpc::Stream;
+
+MissionInfo::MissionInfo(std::shared_ptr<SpaceCenter> _spacecenter, std::shared_ptr<SpaceCenter::Vessel> _vessel)
 		: spacecenter(_spacecenter), vessel(_vessel)
 	{
-		ut = std::make_shared<krpc::Stream<double>>(spacecenter->ut_stream());
+		ut = std::make_shared<Stream<double>>(spacecenter->ut_stream());
 		std::cout << "MissionInfo created!" << std::endl;
 	}

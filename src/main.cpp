@@ -13,12 +13,14 @@ void testConn() {
 	krpc::services::KRPC* krpc = new krpc::services::KRPC(conn);
 	std::cout << "Connected to kRPC server version " << krpc->get_status().version() << std::endl;
 
-	krpc::services::SpaceCenter* space_center = new krpc::services::SpaceCenter(conn);
-	krpc::services::SpaceCenter::Vessel* vessel = new krpc::services::SpaceCenter::Vessel(space_center->active_vessel());
+	using krpc::services::SpaceCenter;
+
+	SpaceCenter* space_center = new SpaceCenter(conn);
+	SpaceCenter::Vessel* vessel = new SpaceCenter::Vessel(space_center->active_vessel());
 
 	auto info = std::make_shared<MissionInfo>(
-				std::shared_ptr<krpc::services::SpaceCenter>(space_center), 
-				std::shared_ptr<krpc::services::SpaceCenter::Vessel>(vessel));
+				std::shared_ptr<SpaceCenter>(space_center), 
+				std::shared_ptr<SpaceCenter::Vessel>(vessel));
 	MissionPlaner plan{info};
 	std::shared_ptr<MissionStage> firstStage = std::make_shared<AscentStage>("First Stage", 
 		info);
