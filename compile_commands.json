@@ -1,0 +1,27 @@
+[
+{
+  "directory": "/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/build",
+  "command": "/usr/bin/c++   -I/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/include -I/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/include/krpc   -Wall -Werror -std=c++11 -lkrpc -lprotobuf -g   -o CMakeFiles/CKOS.dir/src/AscentStage.cpp.o -c /home/joloco/Games/KSP/kRPC-Code/C++/CKOS/src/AscentStage.cpp",
+  "file": "/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/src/AscentStage.cpp"
+},
+{
+  "directory": "/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/build",
+  "command": "/usr/bin/c++   -I/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/include -I/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/include/krpc   -Wall -Werror -std=c++11 -lkrpc -lprotobuf -g   -o CMakeFiles/CKOS.dir/src/Logger.cpp.o -c /home/joloco/Games/KSP/kRPC-Code/C++/CKOS/src/Logger.cpp",
+  "file": "/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/src/Logger.cpp"
+},
+{
+  "directory": "/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/build",
+  "command": "/usr/bin/c++   -I/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/include -I/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/include/krpc   -Wall -Werror -std=c++11 -lkrpc -lprotobuf -g   -o CMakeFiles/CKOS.dir/src/MissionInfo.cpp.o -c /home/joloco/Games/KSP/kRPC-Code/C++/CKOS/src/MissionInfo.cpp",
+  "file": "/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/src/MissionInfo.cpp"
+},
+{
+  "directory": "/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/build",
+  "command": "/usr/bin/c++   -I/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/include -I/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/include/krpc   -Wall -Werror -std=c++11 -lkrpc -lprotobuf -g   -o CMakeFiles/CKOS.dir/src/MissionPlan.cpp.o -c /home/joloco/Games/KSP/kRPC-Code/C++/CKOS/src/MissionPlan.cpp",
+  "file": "/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/src/MissionPlan.cpp"
+},
+{
+  "directory": "/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/build",
+  "command": "/usr/bin/c++   -I/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/include -I/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/include/krpc   -Wall -Werror -std=c++11 -lkrpc -lprotobuf -g   -o CMakeFiles/CKOS.dir/src/main.cpp.o -c /home/joloco/Games/KSP/kRPC-Code/C++/CKOS/src/main.cpp",
+  "file": "/home/joloco/Games/KSP/kRPC-Code/C++/CKOS/src/main.cpp"
+}
+]
