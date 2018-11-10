@@ -24,10 +24,18 @@ void Logger::addLogStream(std::ostream* dest, const std::vector<LogLevel>& level
 	m_logDests.push_back(LogDest(dest, levels));
 }
 
+void Logger::log(const std::string& message, const LogLevel level, const std::string& unit) const {
+	for (LogDest dest : m_logDests) {
+		if (std::find(dest.m_levels.begin(), dest.m_levels.end(), level) != dest.m_levels.end())
+			*dest.m_dest << "[" << unit << "] " << message << std::endl;
+	}
+}
+
+
 void Logger::log(const std::string& message, const LogLevel level) const {
 	for (LogDest dest : m_logDests) {
 		if (std::find(dest.m_levels.begin(), dest.m_levels.end(), level) != dest.m_levels.end())
-			*dest.m_dest << message << std::endl;
+			*dest.m_dest  << message << std::endl;
 	}
 }
 

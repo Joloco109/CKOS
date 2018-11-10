@@ -9,6 +9,7 @@ enum class LogLevel{
 	RUD
 };
 
+
 class Logger { 
 	struct LogDest {
 		std::ostream* m_dest;
@@ -26,14 +27,13 @@ class Logger {
 
 	void addLogStream(std::ostream* dest, const std::vector<LogLevel>& levels);
 
+	void log(const std::string& message, const LogLevel level, const std::string& unit) const;
+
 	void log(const std::string& message, const LogLevel level) const;
 };
 
 class StreamLogger {
 	std::shared_ptr <Logger> m_logger;
 
-	struct StreamNote {
-		
-	};
 };
 
