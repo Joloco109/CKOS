@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+#include <memory>
 #include <krpc.hpp>
 #include <krpc/services/krpc.hpp>
 #include <krpc/services/space_center.hpp>
@@ -6,15 +8,18 @@
 #include "MissionPlan.h"
 #include "MissionInfo.h"
 #include "AscentStage.h"
-#include <memory>
+#include "spdlog/sinks/stdout_sinks.h"
 
 void testConn() {
-	std::shared_ptr<Logger> logger = std::make_shared<Logger>();
+	std::shared_ptr<Logger> logger = std::make_shared<Logger>("Main");
+	std::shared_ptr<Logger> loggertest = std::make_shared<Logger>("Test", &std::cout);
+	auto main_log = std::ofstream("main.log");
+	loggertest->addLogStream(&main_log);
+	loggertest->log(spdlog::level::critical, "Test {}", 2);
 
-	krpc::Client* conn = new krpc::Client(krpc::connect("C++ main test"));
+krpc::Client* conn = new krpc::Client(krpc::connect("C++ main test"));
 	krpc::services::KRPC* krpc = new krpc::services::KRPC(conn);
-	//std::cout << "Connected to kRPC server version " << krpc->get_status().version() << std::endl;
-	logger->log("Connected to kRPC server version " + krpc->get_status().version(), LogLevel::Norminal);
+	logger->log(spdlog::level::level_enum::info, "Connected to kRPC server version " + krpc->get_status().version());
 
 	using krpc::services::SpaceCenter;
 
@@ -29,10 +34,8 @@ void testConn() {
 		info);
 	plan.addStage(firstStage);
 
-	//std::cout << "Time = " << plan.current()->getInfo()->ut->operator()() << std::endl;
-	logger->log("Time = " + std::to_string(plan.current()->getInfo()->ut->operator()()), LogLevel::Norminal);
-	//std::cout << "Current Stage: " << plan.current()->getName() << std::endl;
-	logger->log("Current Stage: " + plan.current()->getName(), LogLevel::Norminal);
+	logger->log(spdlog::level::info, "Time = " + std::to_string(plan.current()->getInfo()->ut->operator()()));
+	logger->log(spdlog::level::info, "Current Stage: " + plan.current()->getName());
 	plan.update();
 	while (plan.update());
 

@@ -19,6 +19,7 @@ add_executable (${PROJECT_NAME} ${source_files} )
 
 target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_SOURCE_DIR}/include")
 target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_SOURCE_DIR}/include/krpc")
+target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_SOURCE_DIR}/include/spdlog")
 #link_directories("${PROJECT_SOURCE_DIR}/lib/krpc")
 
 target_link_libraries(${PROJECT_NAME} krpc)

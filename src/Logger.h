@@ -1,35 +1,48 @@
 #pragma once
 #include <vector>
 #include <memory>
-
-enum class LogLevel{
-	Norminal,
-	Warning,
-	Error,
-	RUD
-};
-
+#include "spdlog/spdlog.h"
+#include "spdlog/sinks/ostream_sink.h"
 
 class Logger { 
-	struct LogDest {
-		std::ostream* m_dest;
-		std::vector<LogLevel> m_levels;
 
-		LogDest(std::ostream* dest, std::vector<LogLevel> levels): m_dest(dest), m_levels(levels)  {}
-	};
+	std::string m_name;
 
-	std::vector<LogDest> m_logDests;
+	std::shared_ptr<spdlog::logger> m_logger;
+
+	static std::vector<std::shared_ptr<spdlog::sinks::ostream_sink_mt>> m_files;
+
+	void init();
 
 	public:
-	Logger();
 
-	Logger(std::ostream* dest, const std::vector<LogLevel>& levels);
+	enum OutputFiles {
+		Main = 0,
+		Mission = 1,
+		Telemetry = 2
+	};
 
-	void addLogStream(std::ostream* dest, const std::vector<LogLevel>& levels);
+	Logger(const std::string& name);
 
-	void log(const std::string& message, const LogLevel level, const std::string& unit) const;
+	Logger(const std::string& name, std::ostream* dest);
 
-	void log(const std::string& message, const LogLevel level) const;
+	//Logger(const std::string& name, OutputFiles dest);
+
+	//Logger(const std::string& name, std::vector<std::ostream*> dest, std::vector<OutputFiles> destFiles);
+
+	void addLogStream(std::ostream* dest);
+
+	//void addLogStream(OutputFiles dest);
+
+	template<typename... Args>
+	void log(const spdlog::level::level_enum level, const char* message, const Args &... args) const {
+		m_logger->log(level, message, args...);
+	}
+
+	void log(const spdlog::level::level_enum level, const std::string& message) const;
+
+	void critical(const std::string& message);
+
 };
 
 class StreamLogger {
