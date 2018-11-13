@@ -3,7 +3,6 @@
 #include <krpc/services/krpc.hpp>
 #include <krpc/services/space_center.hpp>
 #include <memory>
-#include "MissionInfo.h"
 
 using namespace krpc;
 

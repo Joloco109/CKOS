@@ -1,6 +1,6 @@
-#include "MissionPlan.h"
+#pragma once
+#include "MissionStage.h"
 #include "MissionInfo.h"
-#include <memory>
 
 class AscentStage : public MissionStage {
 	double turnStart = 100;

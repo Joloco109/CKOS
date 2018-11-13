@@ -12,10 +12,6 @@
 
 void testConn() {
 	std::shared_ptr<Logger> logger = std::make_shared<Logger>("Main");
-	std::shared_ptr<Logger> loggertest = std::make_shared<Logger>("Test", &std::cout);
-	auto main_log = std::ofstream("main.log");
-	loggertest->addLogStream(&main_log);
-	loggertest->log(spdlog::level::critical, "Test {}", 2);
 
 krpc::Client* conn = new krpc::Client(krpc::connect("C++ main test"));
 	krpc::services::KRPC* krpc = new krpc::services::KRPC(conn);
