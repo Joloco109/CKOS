@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+#include <memory>
 #include <krpc.hpp>
 #include <krpc/services/krpc.hpp>
 #include <krpc/services/space_center.hpp>
@@ -6,12 +8,14 @@
 #include "MissionPlan.h"
 #include "MissionInfo.h"
 #include "AscentStage.h"
-#include <memory>
+#include "spdlog/sinks/stdout_sinks.h"
 
 void testConn() {
-	krpc::Client* conn = new krpc::Client(krpc::connect("C++ main test"));
+	std::shared_ptr<Logger> logger = std::make_shared<Logger>("Main");
+
+krpc::Client* conn = new krpc::Client(krpc::connect("C++ main test"));
 	krpc::services::KRPC* krpc = new krpc::services::KRPC(conn);
-	std::cout << "Connected to kRPC server version " << krpc->get_status().version() << std::endl;
+	logger->log(spdlog::level::level_enum::info, "Connected to kRPC server version " + krpc->get_status().version());
 
 	using krpc::services::SpaceCenter;
 
@@ -26,8 +30,8 @@ void testConn() {
 		info);
 	plan.addStage(firstStage);
 
-	std::cout << "Time = " << plan.current()->getInfo()->ut->operator()() << std::endl;
-	std::cout << "Current Stage: " << plan.current()->getName() << std::endl;
+	logger->log(spdlog::level::info, "Time = " + std::to_string(plan.current()->getInfo()->ut->operator()()));
+	logger->log(spdlog::level::info, "Current Stage: " + plan.current()->getName());
 	plan.update();
 	while (plan.update());
 
@@ -39,15 +43,15 @@ int main() {
 		testConn();
 	}
 	catch (krpc::ConnectionError& e) {
-		std::cout << "Error in Connection!" << std::endl;
-		std::cout << "Error:" << e.what() << std::endl;
+		std::cerr << "Error in Connection!" << std::endl;
+		std::cerr << "Error:" << e.what() << std::endl;
 	}
 	catch (krpc::RPCError& e) {
-		std::cout << "RPC error in Test!" << std::endl;
-		std::cout << "Error:" << e.what() << std::endl;
+		std::cerr << "RPC error in Test!" << std::endl;
+		std::cerr << "Error:" << e.what() << std::endl;
 	}
 	catch (std::system_error& e) {
-		std::cout << "System error in Test!" << std::endl;
-		std::cout << "Error:" << e.what() << std::endl;
+		std::cerr << "System error in Test!" << std::endl;
+		std::cerr << "Error:" << e.what() << std::endl;
 	}
 }

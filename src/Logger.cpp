@@ -1,35 +1,83 @@
 #include <iostream>
 #include <fstream>
+#include <fstream>
 #include <vector>
 #include <memory>
 #include <krpc.hpp>
 #include <krpc/services/krpc.hpp>
 #include "Logger.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/sinks/stdout_sinks.h"
+#include "spdlog/sinks/ostream_sink.h"
 
 /*
  * Definition of Logger Members
  *
  */
 
-Logger::Logger() {
-	LogLevel defaultLevels [] = {LogLevel::Norminal, LogLevel::Warning, LogLevel::Error, LogLevel::RUD};
-	m_logDests.push_back(LogDest(&std::cout, std::vector<LogLevel>(defaultLevels, defaultLevels+sizeof(defaultLevels)/sizeof(LogLevel))));
-}
+std::vector<std::shared_ptr<spdlog::sinks::ostream_sink_mt>> Logger::m_files;
 
-Logger::Logger(std::ostream* dest, const std::vector<LogLevel>& levels) {
-	m_logDests.push_back(LogDest(dest, levels));
-}
-
-void Logger::addLogStream(std::ostream* dest, const std::vector<LogLevel>& levels) {
-	m_logDests.push_back(LogDest(dest, levels));
-}
-
-void Logger::log(const std::string& message, const LogLevel level) const {
-	for (LogDest dest : m_logDests) {
-		if (std::find(dest.m_levels.begin(), dest.m_levels.end(), level) != dest.m_levels.end())
-			*dest.m_dest << message << std::endl;
+void Logger::init() {
+	if (m_files.empty()) {
+		auto main_log = std::ofstream("main.log");
+		auto mission_log = std::ofstream("mission.log");
+		auto telemetry_log = std::ofstream("telemetry.log");
+		m_files.resize(3);
+		m_files[OutputFiles::Main] = std::make_shared<spdlog::sinks::ostream_sink_mt>(main_log);
+		m_files[OutputFiles::Mission] = std::make_shared<spdlog::sinks::ostream_sink_mt>(mission_log);
+		m_files[OutputFiles::Telemetry] = std::make_shared<spdlog::sinks::ostream_sink_mt>(telemetry_log);
 	}
 }
+
+
+Logger::Logger(const std::string& name) :
+	m_name(name),
+	m_logger(std::make_shared<spdlog::logger>(name, std::make_shared<spdlog::sinks::stdout_color_sink_mt>())) {
+	init();
+	m_logger->info("Logger {} initialized.", m_name);
+}
+
+Logger::Logger(const std::string& name, std::ostream* dest) : 
+	m_name(name), 
+	m_logger(std::make_shared<spdlog::logger>(name, std::make_shared<spdlog::sinks::ostream_sink_mt>(*dest)))  
+{
+	init();
+	m_logger->info("Logger {} initialized.", m_name);
+}
+
+/*Logger::Logger(const std::string& name, OutputFiles dest) :
+	m_name(name), 
+	m_logger(std::make_shared<spdlog::logger>(name, m_files[dest])) 
+{
+	init();
+	m_logger->info("Logger {} initialized.", m_name);
+}*/
+
+void Logger::addLogStream(std::ostream* dest) {
+	m_logger->sinks().push_back(std::make_shared<spdlog::sinks::ostream_sink_mt>(*dest));
+	
+}
+
+/*void Logger::addLogStream(OutputFiles dest) {
+	//m_logger->sinks().push_back(m_files[dest]);
+	auto main_log = std::ofstream("main.log");
+	m_logger->sinks().push_back(std::make_shared<spdlog::sinks::ostream_sink_mt>(main_log));
+}*/
+
+/*template<typename... Args>
+void Logger::log(const spdlog::level::level_enum level, const char* message, const Args & ... args) const {
+	m_logger->log(level, message, &args...);
+}*/
+
+void Logger::log(const spdlog::level::level_enum level, const std::string& message) const {
+	m_logger->log(level, message);
+}
+
+void Logger::critical(const std::string& message) {
+	m_logger->critical(message);
+}
+
+
 
 /*
  * Definition of StreamLogger members
@@ -46,7 +94,7 @@ void Logger::log(const std::string& message, const LogLevel level) const {
 	
 };*/
 
-int LogTest() {
+/*int LogTest() {
 	Logger tester;
 	
 	LogLevel levels [] = {LogLevel::RUD, LogLevel::Error};
@@ -68,4 +116,4 @@ int LogTest() {
 	file.close();
 
 	return 0;
-}
+}*/
