@@ -6,11 +6,12 @@
  */
 
 MissionPlaner::MissionPlaner(std::shared_ptr<MissionInfo> info) :
-	Unit("MissionPlaner")
+	Unit("MissionPlaner", info),
+	m_first(std::make_shared<CountdownStage>("Countdown", info)),
+	m_current(m_first),
+	m_info(info)
 {
-	m_first = std::make_shared<CountdownStage>("Countdown", info);
-	m_current = m_first;
-	m_info = info;
+	//logger.setInfo(m_info);
 	logger.log(spdlog::level::info, "MissionPlaner created");
 }
 

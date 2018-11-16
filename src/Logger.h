@@ -4,11 +4,15 @@
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/ostream_sink.h"
 
+#include "MissionInfo.h"
+
 class Logger { 
 
 	std::string m_name;
 
 	std::shared_ptr<spdlog::logger> m_logger;
+
+	std::shared_ptr<MissionInfo> m_info;
 
 	static std::vector<std::shared_ptr<spdlog::sinks::ostream_sink_mt>> m_files;
 
@@ -22,13 +26,15 @@ class Logger {
 		Telemetry = 2
 	};
 
-	Logger(const std::string& name);
+	Logger(const std::string& name, std::shared_ptr<MissionInfo> = std::shared_ptr<MissionInfo>(NULL));
 
-	Logger(const std::string& name, std::ostream* dest);
+	Logger(const std::string& name, std::ostream* dest, std::shared_ptr<MissionInfo> = std::shared_ptr<MissionInfo>(NULL));
 
-	//Logger(const std::string& name, OutputFiles dest);
+	//Logger(const std::string& name, OutputFiles dest, std::shared_ptr<MissionInfo> = std::shared_ptr<MissionInfo>(NULL));
 
-	//Logger(const std::string& name, std::vector<std::ostream*> dest, std::vector<OutputFiles> destFiles);
+	//Logger(const std::string& name, std::vector<std::ostream*> dest, std::vector<OutputFiles> destFiles, std::shared_ptr<MissionInfo> = std::shared_ptr<MissionInfo>(NULL));
+	
+	void setInfo(std::shared_ptr<MissionInfo> info);
 
 	void addLogStream(std::ostream* dest);
 
