@@ -25,6 +25,8 @@ krpc::Client* conn = new krpc::Client(krpc::connect("C++ main test"));
 	auto info = std::make_shared<MissionInfo>(
 				std::shared_ptr<SpaceCenter>(space_center), 
 				std::shared_ptr<SpaceCenter::Vessel>(vessel));
+	logger->setInfo(info);
+
 	MissionPlaner plan{info};
 	std::shared_ptr<MissionStage> firstStage = std::make_shared<AscentStage>("First Stage", 
 		info);

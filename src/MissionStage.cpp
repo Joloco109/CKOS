@@ -6,10 +6,11 @@
  */
 
 MissionStage::MissionStage(std::string name, std::shared_ptr<MissionInfo> info):
-	Unit(name),
+	Unit(name, info),
 	m_info(info),
 	m_name(name) 
 {
+	//logger.setInfo(m_info);
 	logger.log(spdlog::level::info, "MissionStage {} created", m_name);
 	//std::cout << "MissionStage " << m_name << " created!" << std::endl;
 }
