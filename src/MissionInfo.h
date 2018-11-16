@@ -12,6 +12,7 @@ struct MissionInfo {
 	const std::shared_ptr<krpc::services::SpaceCenter::Vessel> vessel;
 
 	std::shared_ptr<krpc::Stream<double>> ut;
+	std::shared_ptr<krpc::Stream<double>> met;
 
 	std::shared_ptr<krpc::Stream<double>> altitude;
 

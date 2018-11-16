@@ -34,7 +34,11 @@ void Logger::init() {
 	}
 	if (m_info)
 		for(auto& sink : m_logger->sinks()) {
-			sink->set_formatter(spdlog::details::make_unique<spdlog::krpc_pattern_formatter>());
+			sink->set_formatter(spdlog::details::make_unique<spdlog::krpc_pattern_formatter>("[%U] [%^%n%$] [%l]  %v", m_info->ut, m_info->met));
+		}
+	else 
+		for (auto& sink : m_logger->sinks()) {
+			sink->set_formatter(spdlog::details::make_unique<spdlog::krpc_pattern_formatter>("[RT: %Y-%m-%d %H:%M:%S] [%^%n%$] [%l]  %v"));
 		}
 }
 
@@ -86,11 +90,6 @@ void Logger::addLogStream(std::ostream* dest) {
 	m_logger->sinks().push_back(std::make_shared<spdlog::sinks::ostream_sink_mt>(main_log));
 }*/
 
-/*template<typename... Args>
-void Logger::log(const spdlog::level::level_enum level, const char* message, const Args & ... args) const {
-	m_logger->log(level, message, &args...);
-}*/
-
 void Logger::log(const spdlog::level::level_enum level, const std::string& message) const {
 	if (m_info)
 		m_logger->log(level, fmt::format("[{}] {}", (m_info->ut->operator()()), message));
@@ -118,27 +117,3 @@ void Logger::critical(const std::string& message) {
 
 	
 };*/
-
-/*int LogTest() {
-	Logger tester;
-	
-	LogLevel levels [] = {LogLevel::RUD, LogLevel::Error};
-
-	std::fstream file("test2.log", std::fstream::out);
-
-	Logger tester2(&file, std::vector<LogLevel>(levels, levels+sizeof(levels)/sizeof(LogLevel)) );
-
-	tester.log("Test Norminal",LogLevel::Norminal);
-	tester.log("Test Warning",LogLevel::Warning);
-	tester.log("Test Error",LogLevel::Error);
-	tester.log("Test RUD",LogLevel::RUD);
-
-	tester2.log("Test Norminal",LogLevel::Norminal);
-	tester2.log("Test Warning",LogLevel::Warning);
-	tester2.log("Test Error",LogLevel::Error);
-	tester2.log("Test RUD",LogLevel::RUD);
-
-	file.close();
-
-	return 0;
-}*/

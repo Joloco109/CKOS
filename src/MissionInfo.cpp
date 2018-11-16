@@ -7,5 +7,6 @@ MissionInfo::MissionInfo(std::shared_ptr<SpaceCenter> _spacecenter, std::shared_
 		: spacecenter(_spacecenter), vessel(_vessel)
 	{
 		ut = std::make_shared<Stream<double>>(spacecenter->ut_stream());
+		met = std::make_shared<Stream<double>>(vessel->met_stream());
 		//std::cout << "MissionInfo created!" << std::endl;
 	}

@@ -23,11 +23,53 @@
 
 namespace spdlog {
 
+namespace details {
+
+class krpc_ut_formatter : public flag_formatter
+{
+public:
+	explicit krpc_ut_formatter(padding_info padinfo, std::shared_ptr<krpc::Stream<double>> ut)
+		: flag_formatter(padinfo)
+		, ut_(ut)
+	{}
+
+	void format(const details::log_msg &, const std::tm &, fmt::memory_buffer &dest) override
+	{
+		const size_t field_size = 22;
+		scoped_pad p(field_size, padinfo_, dest);
+		fmt::format_to(dest, "UT: {:19.3f}", ut_->operator()());
+	}
+
+protected:
+	std::shared_ptr<krpc::Stream<double>> ut_;
+};
+
+class krpc_met_formatter : public flag_formatter
+{
+public:
+	explicit krpc_met_formatter(padding_info padinfo, std::shared_ptr<krpc::Stream<double>> met)
+		: flag_formatter(padinfo)
+		, met_(met)
+	{}
+
+	void format(const details::log_msg &, const std::tm &, fmt::memory_buffer &dest) override
+	{
+		const size_t field_size = 22;
+		scoped_pad p(field_size, padinfo_, dest);
+		fmt::format_to(dest, "MET:{:18.3f}", met_->operator()());
+	}
+
+protected:
+	std::shared_ptr<krpc::Stream<double>> met_;
+};
+
+}
+
 class krpc_pattern_formatter final : public formatter
 {
 public:
     explicit krpc_pattern_formatter(
-        std::string pattern, std::shared_ptr<krpc::Stream<double>> ut, std::shared_ptr<krpc::Stream<double>> met, pattern_time_type time_type = pattern_time_type::local, std::string eol = spdlog::details::os::default_eol)
+        std::string pattern, std::shared_ptr<krpc::Stream<double>> ut = NULL, std::shared_ptr<krpc::Stream<double>> met = NULL, pattern_time_type time_type = pattern_time_type::local, std::string eol = spdlog::details::os::default_eol)
         : pattern_(std::move(pattern))
         , eol_(std::move(eol))
         , pattern_time_type_(time_type)
@@ -238,6 +280,16 @@ private:
         case ('%'):
             formatters_.push_back(details::make_unique<details::ch_formatter>('%'));
             break;
+	
+	case ('U'):
+	    if (ut_)
+	    	formatters_.push_back(details::make_unique<details::krpc_ut_formatter>(padding, ut_));
+	    break;
+
+	case ('Z'):
+	    if (met_)
+	    	formatters_.push_back(details::make_unique<details::krpc_met_formatter>(padding, met_));
+	    break;
 
         default: // Unknown flag appears as is
             auto unknown_flag = details::make_unique<details::aggregate_formatter>();
