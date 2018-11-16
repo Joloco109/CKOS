@@ -13,7 +13,7 @@
 void testConn() {
 	std::shared_ptr<Logger> logger = std::make_shared<Logger>("Main");
 
-krpc::Client* conn = new krpc::Client(krpc::connect("C++ main test"));
+	krpc::Client* conn = new krpc::Client(krpc::connect("C++ main test"));
 	krpc::services::KRPC* krpc = new krpc::services::KRPC(conn);
 	logger->log(spdlog::level::level_enum::info, "Connected to kRPC server version " + krpc->get_status().version());
 
@@ -28,13 +28,9 @@ krpc::Client* conn = new krpc::Client(krpc::connect("C++ main test"));
 	logger->setInfo(info);
 
 	MissionPlaner plan{info};
-	std::shared_ptr<MissionStage> firstStage = std::make_shared<AscentStage>("First Stage", 
-		info);
+	std::shared_ptr<MissionStage> firstStage = std::make_shared<AscentStage>("First Stage", info);
 	plan.addStage(firstStage);
 
-	logger->log(spdlog::level::info, "Time = " + std::to_string(plan.current()->getInfo()->ut->operator()()));
-	logger->log(spdlog::level::info, "Current Stage: " + plan.current()->getName());
-	plan.update();
 	while (plan.update());
 
 	std::cin.get();

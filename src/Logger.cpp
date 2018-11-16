@@ -91,10 +91,7 @@ void Logger::addLogStream(std::ostream* dest) {
 }*/
 
 void Logger::log(const spdlog::level::level_enum level, const std::string& message) const {
-	if (m_info)
-		m_logger->log(level, fmt::format("[{}] {}", (m_info->ut->operator()()), message));
-	else
-		m_logger->log(level, message);
+	m_logger->log(level, message);
 }
 
 void Logger::critical(const std::string& message) {
