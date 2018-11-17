@@ -20,6 +20,10 @@
  *
  */
 
+const std::string Logger::UT_FORMAT = "[%U] [%^%n%$] [%l]  %v";
+const std::string Logger::MET_FORMAT = "[%Z] [%^%n%$] [%l]  %v";
+const std::string Logger::RT_FORMAT = "[RT: %Y-%m-%d %H:%M:%S] [%^%n%$] [%l]  %v";
+
 std::vector<std::shared_ptr<spdlog::sinks::ostream_sink_mt>> Logger::m_files;
 
 void Logger::init() {
@@ -34,11 +38,11 @@ void Logger::init() {
 	}
 	if (m_info)
 		for(auto& sink : m_logger->sinks()) {
-			sink->set_formatter(spdlog::details::make_unique<spdlog::krpc_pattern_formatter>("[%U] [%^%n%$] [%l]  %v", m_info->ut, m_info->met));
+			sink->set_formatter(spdlog::details::make_unique<spdlog::krpc_pattern_formatter>(UT_FORMAT, m_info->ut, m_info->met));
 		}
 	else 
 		for (auto& sink : m_logger->sinks()) {
-			sink->set_formatter(spdlog::details::make_unique<spdlog::krpc_pattern_formatter>("[RT: %Y-%m-%d %H:%M:%S] [%^%n%$] [%l]  %v"));
+			sink->set_formatter(spdlog::details::make_unique<spdlog::krpc_pattern_formatter>(RT_FORMAT));
 		}
 }
 
@@ -94,9 +98,9 @@ void Logger::log(const spdlog::level::level_enum level, const std::string& messa
 	m_logger->log(level, message);
 }
 
-void Logger::critical(const std::string& message) {
+/*void Logger::critical(const std::string& message) const {
 	m_logger->critical(message);
-}
+}*/
 
 
 

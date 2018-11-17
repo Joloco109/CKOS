@@ -5,14 +5,12 @@
  *
  */
 
-MissionStage::MissionStage(std::string name, std::shared_ptr<MissionInfo> info):
+MissionStage::MissionStage(const std::string& name, std::shared_ptr<MissionInfo> info):
 	Unit(name, info),
 	m_info(info),
 	m_name(name) 
 {
-	//logger.setInfo(m_info);
-	logger.log(spdlog::level::info, "MissionStage {} created", m_name);
-	//std::cout << "MissionStage " << m_name << " created!" << std::endl;
+	logger.log(spdlog::level::trace, "MissionStage {} created", m_name);
 }
 
 std::shared_ptr<MissionInfo> MissionStage::getInfo() const {
@@ -31,7 +29,6 @@ bool MissionStage::activate() {
 	if (m_status != MissionStageStatus::InProgress) {
 		m_status = MissionStageStatus::InProgress;
 		logger.log(spdlog::level::info, "Activated Stage: {}", m_name);
-		//std::cout << "Activated Stage: " << m_name << std::endl;
 		return true;
 	}
 	return false;
@@ -42,11 +39,11 @@ bool MissionStage::activate() {
  *
  */
 
-CountdownStage::CountdownStage(std::string name, std::shared_ptr<MissionInfo> info) :
+CountdownStage::CountdownStage(const std::string& name, std::shared_ptr<MissionInfo> info) :
 	MissionStage(name, info)
 {}
 
-CountdownStage::CountdownStage(std::string name, std::shared_ptr<MissionInfo> info, double seconds) :
+CountdownStage::CountdownStage(const std::string& name, std::shared_ptr<MissionInfo> info, double seconds) :
 	MissionStage(name, info),
 	m_seconds(seconds) 
 {}
@@ -55,7 +52,6 @@ MissionStageStatus CountdownStage::update() {
 	if (activate()) {
 		m_launchtime = m_seconds + getInfo()->ut->operator()();
 		logger.log(spdlog::level::info, "Launch at {} ", m_launchtime);
-		//std::cout << "Launch at " << m_launchtime << std::endl;
 	}
 	double time = getInfo()->ut->operator()();
 	if (m_launchtime - m_seconds < time) {

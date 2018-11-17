@@ -11,7 +11,6 @@ MissionPlaner::MissionPlaner(std::shared_ptr<MissionInfo> info) :
 	m_current(m_first),
 	m_info(info)
 {
-	//logger.setInfo(m_info);
 	logger.log(spdlog::level::info, "MissionPlaner created");
 }
 

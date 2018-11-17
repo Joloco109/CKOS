@@ -4,7 +4,6 @@
 
 #include <memory>
 
-#include "MissionInfo.h"
 #include "MissionStage.h"
 #include "CKOS_Unit.h"
 

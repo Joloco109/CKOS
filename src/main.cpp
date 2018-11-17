@@ -15,7 +15,7 @@ void testConn() {
 
 	krpc::Client* conn = new krpc::Client(krpc::connect("C++ main test"));
 	krpc::services::KRPC* krpc = new krpc::services::KRPC(conn);
-	logger->log(spdlog::level::level_enum::info, "Connected to kRPC server version " + krpc->get_status().version());
+	logger->info("Connected to kRPC server version {}", krpc->get_status().version());
 
 	using krpc::services::SpaceCenter;
 

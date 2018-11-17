@@ -8,6 +8,10 @@
 
 class Logger { 
 
+	static const std::string UT_FORMAT;
+	static const std::string MET_FORMAT;
+	static const std::string RT_FORMAT;
+
 	std::string m_name;
 
 	std::shared_ptr<spdlog::logger> m_logger;
@@ -47,7 +51,35 @@ class Logger {
 
 	void log(const spdlog::level::level_enum level, const std::string& message) const;
 
-	void critical(const std::string& message);
+	template<typename... Args>
+	void critical(const char* message, const Args &... args) const {
+		log(spdlog::level::critical, message, args...);
+	}
+
+	template<typename... Args>
+	void err(const char* message, const Args &... args) const {
+		log(spdlog::level::err, message, args...);
+	}
+
+	template<typename... Args>
+	void warn(const char* message, const Args &... args) const {
+		log(spdlog::level::warn, message, args...);
+	}
+
+	template<typename... Args>
+	void info(const char* message, const Args &... args) const {
+		log(spdlog::level::info, message, args...);
+	}
+
+	template<typename... Args>
+	void trace(const char* message, const Args &... args) const {
+		log(spdlog::level::trace, message, args...);
+	}
+
+	template<typename... Args>
+	void debug(const char* message, const Args &... args) const {
+		log(spdlog::level::debug, message, args...);
+	}
 
 };
 

@@ -1,22 +1,5 @@
 #pragma once
 
-/*#include "spdlog/details/fmt_helper.h"
-#include "spdlog/details/log_msg.h"
-#include "spdlog/details/os.h"
-#include "spdlog/fmt/fmt.h"
-#include "spdlog/formatter.h"
-
-#include <array>
-#include <chrono>
-#include <ctime>
-#include <cctype>
-#include <memory>
-#include <mutex>
-#include <string>
-#include <thread>
-#include <utility>
-#include <vector>*/
-
 #include "spdlog/details/pattern_formatter.h"
 
 #include "krpc/krpc/stream.hpp"
@@ -69,7 +52,12 @@ class krpc_pattern_formatter final : public formatter
 {
 public:
     explicit krpc_pattern_formatter(
-        std::string pattern, std::shared_ptr<krpc::Stream<double>> ut = NULL, std::shared_ptr<krpc::Stream<double>> met = NULL, pattern_time_type time_type = pattern_time_type::local, std::string eol = spdlog::details::os::default_eol)
+        std::string pattern, 
+	std::shared_ptr<krpc::Stream<double>> ut = NULL, 
+	std::shared_ptr<krpc::Stream<double>> met = NULL, 
+	pattern_time_type time_type = pattern_time_type::local, 
+	std::string eol = spdlog::details::os::default_eol
+    )
         : pattern_(std::move(pattern))
         , eol_(std::move(eol))
         , pattern_time_type_(time_type)
