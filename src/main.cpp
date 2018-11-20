@@ -30,18 +30,13 @@ void testConn() {
 				std::shared_ptr<SpaceCenter::Vessel>(vessel));
 	logger->setInfo(info);
 
-	{
-		StreamLogger streamlogger(logger);
-		streamlogger.add_double_stream(info->ut);
-		streamlogger.add_double_stream(info->met);
-		streamlogger.log_start();
-		std::this_thread::sleep_for(std::chrono::seconds(1));
-	}
+	StreamLogger streamlogger(info);
 
 	MissionPlaner plan{info};
 	std::shared_ptr<MissionStage> firstStage = std::make_shared<AscentStage>("First Stage", info);
 	plan.addStage(firstStage);
 
+	streamlogger.log_start();
 	while (plan.update());
 
 	std::cin.get();
