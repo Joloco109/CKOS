@@ -1,14 +1,17 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
+
 #include <krpc.hpp>
 #include <krpc/services/krpc.hpp>
 #include <krpc/services/space_center.hpp>
+
 #include "Logger.h"
+#include "spdlog/sinks/stdout_sinks.h"
 #include "MissionPlan.h"
 #include "MissionInfo.h"
 #include "AscentStage.h"
-#include "spdlog/sinks/stdout_sinks.h"
+#include "StreamLogger.h"
 
 void testConn() {
 	std::shared_ptr<Logger> logger = std::make_shared<Logger>("Main");
@@ -26,6 +29,14 @@ void testConn() {
 				std::shared_ptr<SpaceCenter>(space_center), 
 				std::shared_ptr<SpaceCenter::Vessel>(vessel));
 	logger->setInfo(info);
+
+	{
+		StreamLogger streamlogger(logger);
+		streamlogger.add_double_stream(info->ut);
+		streamlogger.add_double_stream(info->met);
+		streamlogger.log_start();
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+	}
 
 	MissionPlaner plan{info};
 	std::shared_ptr<MissionStage> firstStage = std::make_shared<AscentStage>("First Stage", info);

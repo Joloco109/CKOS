@@ -83,8 +83,3 @@ class Logger {
 
 };
 
-class StreamLogger {
-	std::shared_ptr <Logger> m_logger;
-
-};
-

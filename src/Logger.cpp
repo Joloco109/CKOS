@@ -109,12 +109,3 @@ void Logger::log(const spdlog::level::level_enum level, const std::string& messa
  *
  */
 
-/*class StreamLogger {
-	std::shared_ptr <Logger> logger;
-
-	struct StreamNote {
-		//krpc::Stream stream;
-	};
-
-	
-};*/
