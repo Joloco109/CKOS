@@ -7,6 +7,7 @@
 #include "Logger.h"
 
 class StreamLogger {
+	std::fstream* m_output;
 	std::shared_ptr<Logger> m_logger;
 	std::thread* m_thread;
 	std::promise<void> exitSignal;

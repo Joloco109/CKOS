@@ -1,19 +1,28 @@
+#include <fstream>
 #include "StreamLogger.h"
 
 void StreamLogger::log(std::future<void> futureSignal, int secs) {
 	m_logger->info("Start streams");
 	while (futureSignal.wait_for(std::chrono::milliseconds(0)) == std::future_status::timeout) {
 		for (auto& data_stream : m_float_streams)
-			m_logger->info("{}: {:3.2f}", std::get<0>(data_stream), std::get<1>(data_stream)->operator()());
+			m_logger->info("{}: {:3.2f}", 
+					std::get<0>(data_stream), 
+					std::get<1>(data_stream)->operator()());
 		for (auto& data_stream : m_double_streams)
-			m_logger->info("{}: {:3.2f}", std::get<0>(data_stream), std::get<1>(data_stream)->operator()());
+			m_logger->info("{}: {:3.2f}", 
+					std::get<0>(data_stream), 
+					std::get<1>(data_stream)->operator()());
 		std::this_thread::sleep_for(std::chrono::seconds(secs));
 	}
 	m_logger->info("Stopped streams");
 }
 
 StreamLogger::StreamLogger(std::shared_ptr<MissionInfo> info)
-	: m_logger(std::make_shared<Logger>("Telemetry", info))
+	: m_output(new std::fstream("telemetry.log"))
+	, m_logger(std::make_shared<Logger>(
+				"Telemetry",
+				m_output,
+			       	info))
 	, m_info(info)
 {
 	add_double_stream("Altitude", info->altitude);
@@ -29,6 +38,7 @@ StreamLogger::~StreamLogger() {
 	if (m_thread->joinable())
 		m_thread->join();
 	delete m_thread;
+	delete m_output;
 }
 
 void StreamLogger::add_float_stream(std::string name, std::shared_ptr<krpc::Stream<float>> float_stream) {
