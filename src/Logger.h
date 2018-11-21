@@ -12,6 +12,9 @@ class Logger {
 	static const std::string MET_FORMAT;
 	static const std::string RT_FORMAT;
 
+	static const std::string STREAM_UT_FORMAT;
+	static const std::string STREAM_MET_FORMAT;
+
 	std::string m_name;
 
 	std::shared_ptr<spdlog::logger> m_logger;
@@ -80,11 +83,6 @@ class Logger {
 	void debug(const char* message, const Args &... args) const {
 		log(spdlog::level::debug, message, args...);
 	}
-
-};
-
-class StreamLogger {
-	std::shared_ptr <Logger> m_logger;
 
 };
 
