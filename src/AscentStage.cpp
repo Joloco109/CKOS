@@ -1,4 +1,5 @@
 #include "AscentStage.h"
+#include "Math.h"
 
 AscentStage::AscentStage(const std::string& name, std::shared_ptr<MissionInfo> info) : MissionStage(name, info) {}
 
@@ -24,4 +25,5 @@ MissionStageStatus AscentStage::update() {
 }
 
 void AscentStage::pilot() {
+
 }
