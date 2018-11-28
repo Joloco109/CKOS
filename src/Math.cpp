@@ -52,12 +52,12 @@ namespace math {
 	bounded_vector<float,2> to_pitch_heading (const bounded_vector<double,3> direction) {
 		bounded_vector<float,2> out;
 		bounded_vector<double, 3> horizon_direction = direction - direction[0] * unit_vector<double>(3,0);
-		out[0] = (float) angle(horizon_direction,direction);
-		out[1] = (float) angle(horizon_direction,unit_vector<double>(3,1));
+		out[0] = (float) angle(direction,horizon_direction);
+		out[1] = (float) angle(unit_vector<double>(3,1),horizon_direction);
 		if (direction[0] < 0)
 			out[0] = -out[0];
 		if (direction[2] < 0)
-			out[1] = -out[1];
+			out[1] = 360-out[1];
 		return out;
 	}
 
