@@ -7,7 +7,6 @@
 #include <krpc/services/space_center.hpp>
 
 #include "Logger.h"
-#include "spdlog/sinks/stdout_sinks.h"
 #include "MissionPlan.h"
 #include "MissionInfo.h"
 #include "AscentStage.h"

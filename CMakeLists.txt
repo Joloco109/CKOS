@@ -4,6 +4,11 @@ project (CKOS)
 
 set( CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+#set(Boost_USE_STATIC_LIBS OFF) 
+#set(Boost_USE_MULTITHREADED ON)  
+#set(Boost_USE_STATIC_RUNTIME OFF)
+#find_package(Boost 1.68 COMPONENTS uBLAS)
+
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -std=c++11 -lkrpc -lprotobuf -pthread")
 set (source_dir "${PROJECT_SOURCE_DIR}/src/")
 
@@ -16,6 +21,7 @@ add_executable (${PROJECT_NAME} ${source_files} )
 target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_SOURCE_DIR}/include")
 target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_SOURCE_DIR}/include/krpc")
 target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_SOURCE_DIR}/include/spdlog")
+target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_SOURCE_DIR}/include/boost")
 #link_directories("${PROJECT_SOURCE_DIR}/lib/krpc")
 
 target_link_libraries(${PROJECT_NAME} krpc)

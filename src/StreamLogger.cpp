@@ -31,6 +31,9 @@ StreamLogger::StreamLogger(std::shared_ptr<MissionInfo> info)
 	add_float_stream("Roll", info->roll);
 	add_double_stream("O. Speed", info->orbit_speed);
 	add_double_stream("S. Speed", info->surface_speed);
+
+	add_float_stream("Target Pitch", std::make_shared<krpc::Stream<float>>(info->vessel->auto_pilot().target_pitch_stream()));
+	add_float_stream("Target Heading", std::make_shared<krpc::Stream<float>>(info->vessel->auto_pilot().target_heading_stream()));
 }
 
 StreamLogger::~StreamLogger() {
