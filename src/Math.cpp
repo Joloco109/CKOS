@@ -1,6 +1,6 @@
 #include "Math.h"
 
-namespace math {
+namespace k_math {
 	using namespace boost::numeric::ublas;
 	
 	vector3 to_vector3(const bounded_vector<double,3>& in) {
@@ -64,5 +64,60 @@ namespace math {
 	double angle(const bounded_vector<double,3> v, const bounded_vector<double,3> w) {
 		double dot = inner_prod(v,w);
 		return std::acos(dot/(norm_2(v)*norm_2(w))) * 180 / M_PI;
+	}
+
+	bool testMath() {
+		std::vector<double> v_up {1,0.001,0};
+		std::vector<double> v_north {0,1,0};
+		std::vector<double> v_northeast {0,1,1};
+		std::vector<double> v_northup {1,1,0};
+		std::vector<double> v_south {0,-1,0};
+		std::vector<double> v_down {-1,0.001,0};
+
+		bounded_vector<double, 3> up;
+		bounded_vector<double, 3> north;
+		bounded_vector<double, 3> northeast;
+		bounded_vector<double, 3> northup;
+		bounded_vector<double, 3> south;
+		bounded_vector<double, 3> down;
+		std::copy(v_up.begin(),v_up.end(), up.begin());
+		std::copy(v_north.begin(),v_north.end(), north.begin());
+		std::copy(v_northeast.begin(),v_northeast.end(), northeast.begin());
+		std::copy(v_northup.begin(),v_northup.end(), northup.begin());
+		std::copy(v_south.begin(),v_south.end(), south.begin());
+		std::copy(v_down.begin(),v_down.end(), down.begin());
+
+		std::cout << "up" << up << std::endl;
+		std::cout << "north"<< north << std::endl;
+		std::cout << "north-east"<< northeast << std::endl;
+		std::cout << "north-up"<< northup << std::endl;
+
+
+		std::cout << "up pitch_heading" << to_pitch_heading(up) << std::endl;
+		std::cout << "north, pitch_heading" << to_pitch_heading(north) << std::endl;
+		std::cout << "north-east, pitch_heading" << to_pitch_heading(northeast) << std::endl;
+		std::cout << "north-up, pitch_heading" << to_pitch_heading(northup) << std::endl;
+		std::cout << "south, pitch_heading" << to_pitch_heading(south) << std::endl;
+		std::cout << "down, pitch_heading" << to_pitch_heading(down) << std::endl;
+		return true;
+	}
+
+	std::ostream& operator<<(std::ostream& out, const vector<double>& v) {
+		auto it = v.begin();
+		out << "(";
+		while (it != v.end()) {
+			out << it.operator*();
+			it++;
+			if (it != v.end())
+				out << ", ";
+		}
+		out << ")";
+		return out;
+	}
+
+	std::string to_string(const vector <double>& v) {
+		std::ostringstream s;
+		s << v;
+		return s.str();
 	}
 }

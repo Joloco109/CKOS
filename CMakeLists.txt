@@ -9,7 +9,7 @@ set( CMAKE_EXPORT_COMPILE_COMMANDS ON)
 #set(Boost_USE_STATIC_RUNTIME OFF)
 #find_package(Boost 1.68 COMPONENTS uBLAS)
 
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -std=c++11 -lkrpc -lprotobuf -pthread")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wpedantic -std=c++11 -lkrpc -lprotobuf -pthread")
 set (source_dir "${PROJECT_SOURCE_DIR}/src/")
 
 

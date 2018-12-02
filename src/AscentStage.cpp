@@ -7,6 +7,7 @@ MissionStageStatus AscentStage::update() {
 	if (activate()) {
 		m_info->vessel->control().set_throttle(1);
 		m_info->vessel->auto_pilot().engage();
+		m_info->vessel->auto_pilot().set_reference_frame(m_info->vessel->surface_reference_frame());
 		midTurnAnglePerSpeed = (midTurnAngle-startTurnAngle)/(midTurnSpeed-startTurnSpeed);
 		midTurnAngleSpeed_0 = (midTurnSpeed*startTurnAngle-startTurnSpeed*midTurnAngle) / (midTurnSpeed-startTurnSpeed);
 		endTurnAnglePerSpeed = (endTurnAngle-midTurnAngle)/(endTurnSpeed-midTurnSpeed);
@@ -24,7 +25,7 @@ MissionStageStatus AscentStage::update() {
 	pilot();
 
 	if (m_info->vessel->orbit().apoapsis_altitude() > targetApoapsis) {
-		logger.info("Reached Apoapsis of {:.3}m", m_info->vessel->orbit().apoapsis_altitude());
+		logger.info("Reached Apoapsis of {:.5}m", m_info->vessel->orbit().apoapsis_altitude());
 		m_info->vessel->control().set_throttle(0);
 		return MissionStageStatus::Completed;
 	}
@@ -44,7 +45,12 @@ void AscentStage::pilot() {
 		}
 		pitch_heading[0] = 90 - midTurnAnglePerSpeed*m_info->surface_speed->operator()() - midTurnAngleSpeed_0;
 		pitch_heading[1] = 90;
-		//pitch_heading = math::to_pitch_heading(math::to_uvector3(m_info->surface_prograde->operator()()));
+		/*auto direction = m_info->spacecenter->transform_direction(
+					std::make_tuple(0,1,0),
+					m_info->vessel->surface_velocity_reference_frame(),
+					m_info->vessel->surface_reference_frame()
+				);
+		pitch_heading = k_math::to_pitch_heading(k_math::to_uvector3(direction));*/
 	}
 	else {
 		if (!reachedMidGravityTurn) {
@@ -53,7 +59,15 @@ void AscentStage::pilot() {
 		}
 		pitch_heading[0] = 90 - endTurnAnglePerSpeed*m_info->surface_speed->operator()() - endTurnAngleSpeed_0;
 		pitch_heading[1] = 90;
+		auto direction = m_info->spacecenter->transform_direction(
+					std::make_tuple(0,1,0),
+					m_info->vessel->surface_velocity_reference_frame(),
+					m_info->vessel->surface_reference_frame()
+				);
+		pitch_heading = k_math::to_pitch_heading(k_math::to_uvector3(direction));
 	}
+	if (m_info->vessel->orbit().apoapsis_altitude() > targetApoapsis)
+		m_info->vessel->control().set_throttle(0.1);
 	if (pitch_heading[0] < 0)
 		pitch_heading[0] = 0;
 	m_info->vessel->auto_pilot().target_pitch_and_heading(pitch_heading[0], pitch_heading[1]);
