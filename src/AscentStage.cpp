@@ -1,7 +1,35 @@
 #include "AscentStage.h"
 #include "Math.h"
 
-AscentStage::AscentStage(const std::string& name, std::shared_ptr<MissionInfo> info) : MissionStage(name, info) {}
+/*AscentStage::AscentStage(const std::string& name, std::shared_ptr<MissionInfo> info)
+	: MissionStage(name, info) 
+	, heading(std::numeric_limits<double>::quiet_NaN())
+{ }*/
+
+
+AscentStage::AscentStage(const std::string& name, std::shared_ptr<MissionInfo> info, 
+		double _targetApoapsis,
+		double _maxAoA,
+		double _heading,
+		double _startTurnSpeed,
+		double _startTurnAngle,
+		double _midTurnSpeed,
+		double _midTurnAngle,
+		double _endTurnSpeed,
+		double _endTurnAngle
+			) 
+	: MissionStage(name, info)
+	, targetApoapsis(_targetApoapsis)
+	, maxAoA(_maxAoA)
+	, heading(_heading)
+	, startTurnSpeed(_startTurnSpeed)
+	, startTurnAngle(_startTurnAngle)
+	, midTurnSpeed(_midTurnSpeed)
+	, midTurnAngle(_midTurnAngle)
+	, endTurnSpeed(_endTurnSpeed)
+	, endTurnAngle(_endTurnAngle)
+{ }
+
 
 MissionStageStatus AscentStage::update() {
 	if (activate()) {
@@ -34,31 +62,38 @@ MissionStageStatus AscentStage::update() {
 
 void AscentStage::pilot() {
 	boost::numeric::ublas::bounded_vector<float,2> pitch_heading;
+	boost::numeric::ublas::bounded_vector<float,2> target_pitch_heading;
 	if (m_info->surface_speed->operator()() < startTurnSpeed) {
 		pitch_heading[0] = 90-startTurnAngle;
-		pitch_heading[1] = 90;
+		if (heading == heading)
+			pitch_heading[1] = heading;
+		else
+			pitch_heading[1] = 90;
 	}
 	else if (m_info->surface_speed->operator()() < midTurnSpeed) {
 		if (!reachedGravityTurn) {
 			reachedGravityTurn = true;
 			logger.info("Reached Gravity Turn");
 		}
-		pitch_heading[0] = 90 - midTurnAnglePerSpeed*m_info->surface_speed->operator()() - midTurnAngleSpeed_0;
-		pitch_heading[1] = 90;
-		/*auto direction = m_info->spacecenter->transform_direction(
+		target_pitch_heading[0] = 90 - midTurnAnglePerSpeed*m_info->surface_speed->operator()() - midTurnAngleSpeed_0;
+		target_pitch_heading[1] = 90;
+		auto direction = m_info->spacecenter->transform_direction(
 					std::make_tuple(0,1,0),
 					m_info->vessel->surface_velocity_reference_frame(),
 					m_info->vessel->surface_reference_frame()
 				);
-		pitch_heading = k_math::to_pitch_heading(k_math::to_uvector3(direction));*/
+		pitch_heading = k_math::to_pitch_heading(k_math::to_uvector3(direction));
+		pitch_heading[0] -= maxAoA * copysign(
+				exp(-2*abs(pitch_heading[0]-target_pitch_heading[0])/maxAoA),
+				pitch_heading[0]-target_pitch_heading[0]);
+		if (heading == heading)
+			pitch_heading[1] = heading;
 	}
 	else {
 		if (!reachedMidGravityTurn) {
 			reachedMidGravityTurn = true;
 			logger.info("Reached Mid-Gravity Turn");
 		}
-		pitch_heading[0] = 90 - endTurnAnglePerSpeed*m_info->surface_speed->operator()() - endTurnAngleSpeed_0;
-		pitch_heading[1] = 90;
 		auto direction = m_info->spacecenter->transform_direction(
 					std::make_tuple(0,1,0),
 					m_info->vessel->surface_velocity_reference_frame(),
@@ -67,7 +102,7 @@ void AscentStage::pilot() {
 		pitch_heading = k_math::to_pitch_heading(k_math::to_uvector3(direction));
 	}
 	if (m_info->vessel->orbit().apoapsis_altitude() > targetApoapsis)
-		m_info->vessel->control().set_throttle(0.1);
+		m_info->vessel->control().set_throttle(0.02);
 	if (pitch_heading[0] < 0)
 		pitch_heading[0] = 0;
 	m_info->vessel->auto_pilot().target_pitch_and_heading(pitch_heading[0], pitch_heading[1]);
