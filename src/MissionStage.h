@@ -2,8 +2,16 @@
 #include <krpc.hpp>
 #include <krpc/services/krpc.hpp>
 #include <memory>
+
 #include "MissionInfo.h"
 #include "CKOS_Unit.h"
+
+#define m_vessel m_info->vessel
+#define m_orbit m_info->vessel->orbit()
+#define m_control m_info->vessel->control()
+#define m_auto_pilot m_info->vessel->auto_pilot()
+#define set_pitch_heading m_info->vessel->auto_pilot().target_pitch_and_heading
+#define surface_speed m_info->surface_speed->operator()
 
 enum class MissionStageStatus {
 	Scheduled,
