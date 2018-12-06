@@ -23,6 +23,8 @@
 const std::string Logger::UT_FORMAT = "[%U] [%^%n%$] [%l]  %v";
 const std::string Logger::MET_FORMAT = "[%Z] [%^%n%$] [%l]  %v";
 const std::string Logger::RT_FORMAT = "[RT: %Y-%m-%d %H:%M:%S] [%^%n%$] [%l]  %v";
+const std::string Logger::STREAM_UT_FORMAT = "[%U] [%^%n%$] [%l]  %v";
+const std::string Logger::STREAM_MET_FORMAT = "[%Z] [%^%n%$] [%l]  %v";
 
 std::vector<std::shared_ptr<spdlog::sinks::ostream_sink_mt>> Logger::m_files;
 
@@ -109,12 +111,3 @@ void Logger::log(const spdlog::level::level_enum level, const std::string& messa
  *
  */
 
-/*class StreamLogger {
-	std::shared_ptr <Logger> logger;
-
-	struct StreamNote {
-		//krpc::Stream stream;
-	};
-
-	
-};*/
