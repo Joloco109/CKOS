@@ -32,7 +32,7 @@ void testConn() {
 	StreamLogger streamlogger(info);
 
 	MissionPlaner plan{info};
-	std::shared_ptr<MissionStage> firstStage = std::make_shared<AscentStage>("First Stage", info);
+	std::shared_ptr<MissionStage> firstStage = std::make_shared<AscentStage>("First Stage", info, 100000, 5, 90);
 	plan.addStage(firstStage);
 
 	streamlogger.log_start();
