@@ -9,7 +9,7 @@ typedef std::tuple<float, float, float> vector3f;
 typedef std::tuple<double, double> vector2;
 typedef std::tuple<float, float> vector2f;
 
-namespace math {
+namespace k_math {
 	using namespace boost::numeric::ublas;
 	
 	vector3 to_vector3(const bounded_vector<double,3>& in);
@@ -27,4 +27,10 @@ namespace math {
 	bounded_vector<float,2> to_pitch_heading (const bounded_vector<double,3> direction);
 
 	double angle(const bounded_vector<double,3> v, const bounded_vector<double,3> w);
+
+	bool testMath();
+
+	std::ostream& operator<<(std::ostream& out, const vector<double>& v);
+
+	std::string to_string(const vector<double>& v);
 }
