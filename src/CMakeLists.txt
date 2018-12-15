@@ -1,0 +1,29 @@
+set (SOURCE ${SOURCE} 
+	${CMAKE_CURRENT_SOURCE_DIR}/Logger.cpp 
+	${CMAKE_CURRENT_SOURCE_DIR}/StreamLogger.cpp 
+	${CMAKE_CURRENT_SOURCE_DIR}/Math.cpp 
+	${CMAKE_CURRENT_SOURCE_DIR}/MissionInfo.cpp 
+	${CMAKE_CURRENT_SOURCE_DIR}/CKOS_Unit.cpp 
+	${CMAKE_CURRENT_SOURCE_DIR}/MissionPlan.cpp 
+	${CMAKE_CURRENT_SOURCE_DIR}/Stages/MissionStage.cpp 
+	${CMAKE_CURRENT_SOURCE_DIR}/Stages/Ascent.cpp 
+	${CMAKE_CURRENT_SOURCE_DIR}/Stages/OrbitalInsertion.cpp 
+	${CMAKE_CURRENT_SOURCE_DIR}/main.cpp 
+	PARENT_SCOPE
+) 
+
+set (HEADER ${HEADER} 
+	${CMAKE_CURRENT_SOURCE_DIR}/krpc_formatter.h 
+	${CMAKE_CURRENT_SOURCE_DIR}/Logger.h 
+	${CMAKE_CURRENT_SOURCE_DIR}/StreamLogger.h 
+	${CMAKE_CURRENT_SOURCE_DIR}/Math.h 
+	${CMAKE_CURRENT_SOURCE_DIR}/MissionInfo.h 
+	${CMAKE_CURRENT_SOURCE_DIR}/CKOS_Unit.h 
+	${CMAKE_CURRENT_SOURCE_DIR}/MissionPlan.h 
+	${CMAKE_CURRENT_SOURCE_DIR}/Stages/MissionStage.h 
+	${CMAKE_CURRENT_SOURCE_DIR}/Stages/Ascent.h 
+	${CMAKE_CURRENT_SOURCE_DIR}/Stages/OrbitalInsertion.h 
+	PARENT_SCOPE
+) 
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Stages)

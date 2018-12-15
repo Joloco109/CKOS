@@ -3,8 +3,8 @@
 #include <krpc/services/krpc.hpp>
 #include <memory>
 
-#include "MissionInfo.h"
-#include "CKOS_Unit.h"
+#include "../MissionInfo.h"
+#include "../CKOS_Unit.h"
 
 #define m_vessel m_info->vessel
 #define m_orbit m_info->orbit

@@ -1,0 +1,13 @@
+set (SOURCE ${SOURCE} 
+	${CMAKE_CURRENT_SOURCE_DIR}/MissionStage.cpp 
+	${CMAKE_CURRENT_SOURCE_DIR}/Ascent.cpp 
+	${CMAKE_CURRENT_SOURCE_DIR}/OrbitalInsertion.cpp 
+	PARENT_SCOPE
+) 
+
+set (HEADER ${HEADER} 
+	${CMAKE_CURRENT_SOURCE_DIR}/MissionStage.h 
+	${CMAKE_CURRENT_SOURCE_DIR}/Ascent.h 
+	${CMAKE_CURRENT_SOURCE_DIR}/OrbitalInsertion.h 
+	PARENT_SCOPE
+) 

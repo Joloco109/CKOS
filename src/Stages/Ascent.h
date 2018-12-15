@@ -4,12 +4,12 @@
 
 class AscentStage : public MissionStage {
 	double targetApoapsis = 150000;
-	double maxAoA = 5;
+	double maxAoA = 10;
 	double heading;
 
 	double startTurnSpeed = 100;
 	double startTurnAngle = 2.5;
-	double midTurnSpeed = 550;
+	double midTurnSpeed = 650;
 	double midTurnAngle = 45;
 	double endTurnSpeed = 1500;
 	double endTurnAngle = 90;
