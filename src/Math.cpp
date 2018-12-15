@@ -3,54 +3,54 @@
 namespace k_math {
 	using namespace boost::numeric::ublas;
 	
-	vector3 to_vector3(const bounded_vector<double,3>& in) {
+	vector3 to_vector3(const boost_uvector3& in) {
 		return vector3(in[0],in[1],in[2]);
 	}
 
-	bounded_vector<double,3> to_uvector3(const vector3& in) {
-		bounded_vector<double,3> out;
+	boost_uvector3 to_uvector3(const vector3& in) {
+		boost_uvector3 out;
 		out[0] = std::get<0>(in);
 		out[1] = std::get<1>(in);
 		out[2] = std::get<2>(in);
 		return out;
 	}
 
-	vector2 to_vector2(const bounded_vector<double,2>& in) {
+	vector2 to_vector2(const boost_uvector2& in) {
 		return vector2(in[0],in[1]);
 	}
 
-	bounded_vector<double,2> to_uvector2(const vector2& in) {
-		bounded_vector<double,3> out;
+	boost_uvector2 to_uvector2(const vector2& in) {
+		boost_uvector3 out;
 		out[0] = std::get<0>(in);
 		out[1] = std::get<1>(in);
 		return out;
 	}
 
-	vector3f to_vector3f(const bounded_vector<float,3>& in) {
+	vector3f to_vector3f(const boost_uvector3f& in) {
 		return vector3f(in[0],in[1],in[2]);
 	}
 
-	bounded_vector<float,3> to_uvector3f(const vector3f& in) {
-		bounded_vector<double,3> out;
+	boost_uvector3f to_uvector3f(const vector3f& in) {
+		boost_uvector3 out;
 		out[0] = std::get<0>(in);
 		out[1] = std::get<1>(in);
 		out[2] = std::get<2>(in);
 		return out;
 	}
 
-	vector2f to_vector2f(const bounded_vector<float,2>& in) {
+	vector2f to_vector2f(const boost_uvector2f& in) {
 		return vector2f(in[0],in[1]);
 	}
 
-	bounded_vector<float,2> to_uvector2f(const vector2f& in) {
-		bounded_vector<double,3> out;
+	boost_uvector2f to_uvector2f(const vector2f& in) {
+		boost_uvector3 out;
 		out[0] = std::get<0>(in);
 		out[1] = std::get<1>(in);
 		return out;
 	}
 
-	bounded_vector<float,2> to_pitch_heading (const bounded_vector<double,3> direction) {
-		bounded_vector<float,2> out;
+	boost_uvector2f to_pitch_heading (const boost_uvector3 direction) {
+		boost_uvector2f out;
 		bounded_vector<double, 3> horizon_direction = direction - direction[0] * unit_vector<double>(3,0);
 		out[0] = (float) angle(direction,horizon_direction);
 		out[1] = (float) angle(unit_vector<double>(3,1),horizon_direction);
@@ -61,7 +61,7 @@ namespace k_math {
 		return out;
 	}
 
-	double angle(const bounded_vector<double,3> v, const bounded_vector<double,3> w) {
+	double angle(const boost_uvector3 v, const boost_uvector3 w) {
 		double dot = inner_prod(v,w);
 		return std::acos(dot/(norm_2(v)*norm_2(w))) * 180 / M_PI;
 	}

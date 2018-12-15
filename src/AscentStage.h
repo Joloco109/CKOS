@@ -25,8 +25,6 @@ class AscentStage : public MissionStage {
 	void pilot();
 
 	public:
-	//AscentStage(const std::string& name, std::shared_ptr<MissionInfo> info);
-
 	AscentStage(const std::string& name, std::shared_ptr<MissionInfo> info, 
 		double _targetApoapsis = 150000,
 		double _maxAoA = 5,
