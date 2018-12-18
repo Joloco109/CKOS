@@ -11,6 +11,7 @@
 #include "MissionInfo.h"
 #include "Stages/Ascent.h"
 #include "Stages/OrbitalInsertion.h"
+#include "Stages/Node.h"
 #include "StreamLogger.h"
 
 void testConn() {

@@ -73,7 +73,7 @@ void AscentStage::pilot() {
 		target_pitch_heading[1] = 90;
 		pitch_heading = k_math::to_pitch_heading(m_info->surface_prograde());
 		pitch_heading[0] -= maxAoA * copysign(
-				exp(-abs(pitch_heading[0]-target_pitch_heading[0])/2*maxAoA),
+				exp(-abs(pitch_heading[0]-target_pitch_heading[0])*maxAoA),
 				pitch_heading[0]-target_pitch_heading[0]);
 		if (heading == heading)
 			pitch_heading[1] = heading;
