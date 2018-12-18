@@ -26,8 +26,8 @@ bool MissionPlaner::update() {
 	MissionStageStatus status = m_current->update();
 	if (status == MissionStageStatus::Completed)
 		if (m_current->m_next != NULL) {
-			logger.log(spdlog::level::info, "Stage {} reached.", m_current->getName());
 			m_current = m_current->m_next;
+			logger.log(spdlog::level::info, "Stage {} reached.", m_current->getName());
 		}
 		else {
 			logger.log(spdlog::level::info, "Mission complete!");

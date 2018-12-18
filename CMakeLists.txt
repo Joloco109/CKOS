@@ -10,13 +10,11 @@ set( CMAKE_EXPORT_COMPILE_COMMANDS ON)
 #find_package(Boost 1.68 COMPONENTS uBLAS)
 
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wpedantic -std=c++11 -lkrpc -lprotobuf -pthread")
-set (source_dir "${PROJECT_SOURCE_DIR}/src/")
+#set (source_dir "${PROJECT_SOURCE_DIR}/src/")
 
+add_subdirectory(${PROJECT_SOURCE_DIR}/src)
 
-file (GLOB source_files "${source_dir}/*.cpp")
-
-add_executable (${PROJECT_NAME} ${source_files} )
-#add_executable (${PROJECT_NAME} src/main.cpp src/Logger.cpp )
+add_executable (${PROJECT_NAME} ${SOURCE})
 
 target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_SOURCE_DIR}/include")
 target_include_directories(${PROJECT_NAME} PRIVATE "${PROJECT_SOURCE_DIR}/include/krpc")

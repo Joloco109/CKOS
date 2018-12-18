@@ -1,5 +1,5 @@
-#include "AscentStage.h"
-#include "Math.h"
+#include "Ascent.h"
+#include "../Math.h"
 
 AscentStage::AscentStage(const std::string& name, std::shared_ptr<MissionInfo> info, 
 		double _targetApoapsis,
@@ -73,7 +73,7 @@ void AscentStage::pilot() {
 		target_pitch_heading[1] = 90;
 		pitch_heading = k_math::to_pitch_heading(m_info->surface_prograde());
 		pitch_heading[0] -= maxAoA * copysign(
-				exp(-2*abs(pitch_heading[0]-target_pitch_heading[0])/maxAoA),
+				exp(-abs(pitch_heading[0]-target_pitch_heading[0])*maxAoA),
 				pitch_heading[0]-target_pitch_heading[0]);
 		if (heading == heading)
 			pitch_heading[1] = heading;

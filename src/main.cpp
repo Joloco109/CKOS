@@ -9,7 +9,9 @@
 #include "Logger.h"
 #include "MissionPlan.h"
 #include "MissionInfo.h"
-#include "AscentStage.h"
+#include "Stages/Ascent.h"
+#include "Stages/OrbitalInsertion.h"
+#include "Stages/Node.h"
 #include "StreamLogger.h"
 
 void testConn() {
@@ -32,8 +34,10 @@ void testConn() {
 	StreamLogger streamlogger(info);
 
 	MissionPlaner plan{info};
-	std::shared_ptr<MissionStage> firstStage = std::make_shared<AscentStage>("First Stage", info, 100000, 5, 90);
+	std::shared_ptr<MissionStage> firstStage = std::make_shared<AscentStage>("Ascent", info, 100000, 10, 90);
+	std::shared_ptr<MissionStage> secondStage = std::make_shared<OrbitalInsertionStage>("Orbital Insertion", info);
 	plan.addStage(firstStage);
+	plan.addStage(secondStage);
 
 	streamlogger.log_start();
 	while (plan.update());
