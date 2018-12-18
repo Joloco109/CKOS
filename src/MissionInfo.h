@@ -10,6 +10,8 @@ using namespace krpc::services;
 struct MissionInfo {
 	//Member Variables
 	
+	const std::shared_ptr<krpc::Client> connection;
+	
 	const std::shared_ptr<SpaceCenter> spacecenter;
 
 	const std::shared_ptr<SpaceCenter::Vessel> vessel;
@@ -40,7 +42,7 @@ struct MissionInfo {
 
 	//Member Funtions
 
-	MissionInfo(std::shared_ptr<krpc::services::SpaceCenter> _spacecenter, std::shared_ptr<krpc::services::SpaceCenter::Vessel> _vessel);
+	MissionInfo(std::shared_ptr<krpc::Client> _connection, std::shared_ptr<krpc::services::SpaceCenter> _spacecenter, std::shared_ptr<krpc::services::SpaceCenter::Vessel> _vessel);
 
 	boost::numeric::ublas::bounded_vector<double, 3> surface_prograde() const;
 

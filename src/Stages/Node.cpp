@@ -13,7 +13,7 @@ NodeStage::NodeStage(const std::string& name, std::shared_ptr<MissionInfo> info,
 	double flow_rate = F/Isp;
 	m_burnTime = (m0-m1)/flow_rate;
 	m_targetUt = m_node->ut() - m_burnTime/2;
-	m_remaining = m_node->remaining_burn_vector_stream(m_node->reference_frame());
+	m_remaining = m_node->remaining_burn_vector_stream(m_vessel->reference_frame());
 }
 
 MissionStageStatus NodeStage::update() {
@@ -30,7 +30,7 @@ MissionStageStatus NodeStage::update() {
 		return MissionStageStatus::Completed;
 	}
 	else if (m_phase == mainPhase && m_info->ut->operator()() > m_targetUt + m_burnTime - 0.3) {
-		m_control->set_throttle(0.05);
+		m_control->set_throttle(0.1);
 		m_phase = tuningPhase;
 		logger.info("Performing fine tuning");
 

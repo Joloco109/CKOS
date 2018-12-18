@@ -17,16 +17,17 @@
 void testConn() {
 	std::shared_ptr<Logger> logger = std::make_shared<Logger>("Main");
 
-	krpc::Client* conn = new krpc::Client(krpc::connect("C++ main test"));
-	krpc::services::KRPC* krpc = new krpc::services::KRPC(conn);
+	std::shared_ptr<krpc::Client> conn (new krpc::Client(krpc::connect("C++ main test")));
+	krpc::services::KRPC* krpc = new krpc::services::KRPC(&*conn);
 	logger->info("Connected to kRPC server version {}", krpc->get_status().version());
 
 	using krpc::services::SpaceCenter;
 
-	SpaceCenter* space_center = new SpaceCenter(conn);
+	SpaceCenter* space_center = new SpaceCenter(&*conn);
 	SpaceCenter::Vessel* vessel = new SpaceCenter::Vessel(space_center->active_vessel());
 
 	auto info = std::make_shared<MissionInfo>(
+				std::shared_ptr<krpc::Client>(conn),
 				std::shared_ptr<SpaceCenter>(space_center), 
 				std::shared_ptr<SpaceCenter::Vessel>(vessel));
 	logger->setInfo(info);
@@ -34,7 +35,7 @@ void testConn() {
 	StreamLogger streamlogger(info);
 
 	MissionPlaner plan{info};
-	std::shared_ptr<MissionStage> firstStage = std::make_shared<AscentStage>("Ascent", info, 100000, 10, 90);
+	std::shared_ptr<MissionStage> firstStage = std::make_shared<AscentStage>("Ascent", info, 100000, 20, 90);
 	std::shared_ptr<MissionStage> secondStage = std::make_shared<OrbitalInsertionStage>("Orbital Insertion", info);
 	plan.addStage(firstStage);
 	plan.addStage(secondStage);
