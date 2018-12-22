@@ -1,8 +1,6 @@
 #pragma once
 #include <vector>
 #include <memory>
-//#include "spdlog/spdlog.h"
-//#include "spdlog/sinks/ostream_sink.h"
 #include "fmt/fmt.h"
 
 #include "MissionInfo.h"
@@ -59,13 +57,6 @@ class Logger {
 
 	//void addLogStream(OutputFiles dest);
 
-	/*template<typename... Args>
-	void log(const spdlog::level::level_enum level, const char* message, const Args &... args) const {
-		m_logger->log(level, message, args...);
-	}*/
-
-	//void log(const spdlog::level::level_enum level, const char* message) const;
-
 	void critical(const std::string message) const;
 
 	template<typename... Args>
@@ -105,6 +96,6 @@ class Logger {
 
 	template<typename... Args>
 	void debug(const std::string& message, const Args &... args) const {
-		critical(fmt::format(message, args...));
+		debug(fmt::format(message, args...));
 	}
 };
