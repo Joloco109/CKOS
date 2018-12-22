@@ -10,7 +10,7 @@ MissionStage::MissionStage(const std::string& name, std::shared_ptr<MissionInfo>
 	m_info(info),
 	m_name(name) 
 {
-	logger.log(spdlog::level::trace, "MissionStage {} created", m_name);
+	logger.trace("MissionStage {} created", m_name);
 }
 
 std::shared_ptr<MissionInfo> MissionStage::getInfo() const {
@@ -28,7 +28,7 @@ MissionStageStatus MissionStage::getStatus() const {
 bool MissionStage::activate() {
 	if (m_status != MissionStageStatus::InProgress) {
 		m_status = MissionStageStatus::InProgress;
-		logger.log(spdlog::level::info, "Activated Stage: {}", m_name);
+		logger.info("Activated Stage: {}", m_name);
 		return true;
 	}
 	return false;
@@ -51,7 +51,7 @@ CountdownStage::CountdownStage(const std::string& name, std::shared_ptr<MissionI
 MissionStageStatus CountdownStage::update() {
 	if (activate()) {
 		m_launchtime = m_seconds + getInfo()->ut->operator()();
-		logger.log(spdlog::level::info, "Launch at {} ", m_launchtime);
+		logger.info("Launch at {} ", m_launchtime);
 	}
 	double time = getInfo()->ut->operator()();
 	if (m_launchtime - m_seconds < time) {

@@ -11,7 +11,7 @@ MissionPlaner::MissionPlaner(std::shared_ptr<MissionInfo> info) :
 	m_current(m_first),
 	m_info(info)
 {
-	logger.log(spdlog::level::info, "MissionPlaner created");
+	logger.info("MissionPlaner created");
 }
 
 bool MissionPlaner::addStage(std::shared_ptr<MissionStage> stage) {
@@ -27,14 +27,14 @@ bool MissionPlaner::update() {
 	if (status == MissionStageStatus::Completed)
 		if (m_current->m_next != NULL) {
 			m_current = m_current->m_next;
-			logger.log(spdlog::level::info, "Stage {} reached.", m_current->getName());
+			logger.info("Stage {} reached.", m_current->getName());
 		}
 		else {
-			logger.log(spdlog::level::info, "Mission complete!");
+			logger.info("Mission complete!");
 			return false;
 		}
 	else if (status == MissionStageStatus::Failed) {
-		logger.log(spdlog::level::info, "Mission failure!");
+		logger.info("Mission failure!");
 		return false;
 	}
 	return true;

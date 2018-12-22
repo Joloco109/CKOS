@@ -5,9 +5,10 @@
 #include <fstream>
 #include <vector>
 #include <memory>
-#include "spdlog/sinks/stdout_color_sinks.h"
-#include "spdlog/sinks/stdout_sinks.h"
+#include "spdlog/spdlog.h"
 #include "spdlog/sinks/ostream_sink.h"
+//#include "spdlog/sinks/stdout_sinks.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
 
 #include "krpc.hpp"
 #include "krpc/services/krpc.hpp"
@@ -86,7 +87,11 @@ void Logger::setInfo(std::shared_ptr<MissionInfo> info) {
 }
 
 void Logger::addLogStream(std::ostream* dest) {
-	m_logger->sinks().push_back(std::make_shared<spdlog::sinks::ostream_sink_mt>(*dest));
+	std::shared_ptr<spdlog::sinks::ostream_sink_mt> sink =  std::make_shared<spdlog::sinks::ostream_sink_mt>(*dest);
+	m_logger->sinks().push_back(std::dynamic_pointer_cast<spdlog::sinks::sink>(
+				sink));
+	//m_logger->sinks().push_back(std::static_pointer_cast<spdlog::sinks::sink>(
+			//std::make_shared<spdlog::sinks::ostream_sink_mt>(*dest)));
 	
 }
 
@@ -96,18 +101,26 @@ void Logger::addLogStream(std::ostream* dest) {
 	m_logger->sinks().push_back(std::make_shared<spdlog::sinks::ostream_sink_mt>(main_log));
 }*/
 
-void Logger::log(const spdlog::level::level_enum level, const std::string& message) const {
-	m_logger->log(level, message);
+void Logger::critical(const std::string message) const {
+	m_logger->critical(message);
 }
 
-/*void Logger::critical(const std::string& message) const {
-	m_logger->critical(message);
-}*/
+void Logger::err(const std::string message) const {
+	m_logger->error(message);
+}
 
+void Logger::warn(const std::string message) const {
+	m_logger->warn(message);
+}
 
+void Logger::info(const std::string message) const {
+	m_logger->info(message);
+}
 
-/*
- * Definition of StreamLogger members
- *
- */
+void Logger::trace(const std::string message) const {
+	m_logger->trace(message);
+}
 
+void Logger::debug(const std::string message) const {
+	m_logger->debug(message);
+}
