@@ -1,13 +1,25 @@
 #pragma once
 #include <vector>
 #include <memory>
-#include "spdlog/spdlog.h"
-#include "spdlog/sinks/ostream_sink.h"
+//#include "spdlog/spdlog.h"
+//#include "spdlog/sinks/ostream_sink.h"
+#include "fmt/fmt.h"
 
 #include "MissionInfo.h"
 
-class Logger { 
+namespace spdlog {
+	class logger;
+	namespace sinks {
+		template <typename Mutex>
+		class ostream_sink;
 
+		using ostream_sink_mt = ostream_sink<std::mutex>;
+	}
+	namespace level {
+	}
+}
+
+class Logger { 
 	static const std::string UT_FORMAT;
 	static const std::string MET_FORMAT;
 	static const std::string RT_FORMAT;
@@ -47,42 +59,52 @@ class Logger {
 
 	//void addLogStream(OutputFiles dest);
 
-	template<typename... Args>
+	/*template<typename... Args>
 	void log(const spdlog::level::level_enum level, const char* message, const Args &... args) const {
 		m_logger->log(level, message, args...);
-	}
+	}*/
 
-	void log(const spdlog::level::level_enum level, const std::string& message) const;
+	//void log(const spdlog::level::level_enum level, const char* message) const;
 
-	template<typename... Args>
-	void critical(const char* message, const Args &... args) const {
-		log(spdlog::level::critical, message, args...);
-	}
+	void critical(const std::string message) const;
 
 	template<typename... Args>
-	void err(const char* message, const Args &... args) const {
-		log(spdlog::level::err, message, args...);
+	void critical(const std::string& message, const Args &... args) const {
+		critical(fmt::format(message, args...));
 	}
+
+	void err(const std::string message) const;
 
 	template<typename... Args>
-	void warn(const char* message, const Args &... args) const {
-		log(spdlog::level::warn, message, args...);
+	void err(const std::string& message, const Args &... args) const {
+		err(fmt::format(message, args...));
 	}
+
+	void warn(const std::string message) const;
 
 	template<typename... Args>
-	void info(const char* message, const Args &... args) const {
-		log(spdlog::level::info, message, args...);
+	void warn(const std::string& message, const Args &... args) const {
+		warn(fmt::format(message, args...));
 	}
+
+	void info(const std::string message) const;
 
 	template<typename... Args>
-	void trace(const char* message, const Args &... args) const {
-		log(spdlog::level::trace, message, args...);
+	void info(const std::string& message, const Args &... args) const {
+		info(fmt::format(message, args...));
 	}
+
+	void trace(const std::string message) const;
 
 	template<typename... Args>
-	void debug(const char* message, const Args &... args) const {
-		log(spdlog::level::debug, message, args...);
+	void trace(const std::string& message, const Args &... args) const {
+		trace(fmt::format(message, args...));
 	}
 
+	void debug(const std::string message) const;
+
+	template<typename... Args>
+	void debug(const std::string& message, const Args &... args) const {
+		critical(fmt::format(message, args...));
+	}
 };
-
