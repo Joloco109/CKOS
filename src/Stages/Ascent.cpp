@@ -85,7 +85,7 @@ void AscentStage::pilot() {
 		}
 		pitch_heading = k_math::to_pitch_heading(m_info->surface_prograde());
 	}
-	if (m_orbit->apoapsis_altitude() > targetApoapsis)
-		m_control->set_throttle(0.02);
+	if (m_orbit->apoapsis_altitude() > 0.975*targetApoapsis)
+		m_control->set_throttle(0.05);
 	set_pitch_heading(pitch_heading[0], pitch_heading[1]);
 }

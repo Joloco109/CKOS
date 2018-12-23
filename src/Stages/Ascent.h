@@ -3,16 +3,16 @@
 #include <limits.hpp>
 
 class AscentStage : public MissionStage {
-	double targetApoapsis = 150000;
-	double maxAoA = 10;
+	double targetApoapsis;
+	double maxAoA;
 	double heading;
 
-	double startTurnSpeed = 100;
-	double startTurnAngle = 2.5;
-	double midTurnSpeed = 650;
-	double midTurnAngle = 45;
-	double endTurnSpeed = 1500;
-	double endTurnAngle = 90;
+	double startTurnSpeed;
+	double startTurnAngle;
+	double midTurnSpeed;
+	double midTurnAngle;
+	double endTurnSpeed;
+	double endTurnAngle;
 
 	double midTurnAnglePerSpeed;
 	double midTurnAngleSpeed_0;
@@ -27,13 +27,13 @@ class AscentStage : public MissionStage {
 	public:
 	AscentStage(const std::string& name, std::shared_ptr<MissionInfo> info, 
 		double _targetApoapsis = 150000,
-		double _maxAoA = 5,
+		double _maxAoA = 20,
 		double _heading = std::numeric_limits<double>::quiet_NaN(),
-		double _startTurnSpeed = 100,
+		double _startTurnSpeed = 150,
 		double _startTurnAngle = 2.5,
 		double _midTurnSpeed = 700,
 		double _midTurnAngle = 45,
-		double _endTurnSpeed = 1500,
+		double _endTurnSpeed = 1750,
 		double _endTurnAngle = 90
 			);
 
