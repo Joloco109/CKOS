@@ -24,7 +24,7 @@ MissionStageStatus NodeStage::update() {
 		logger.info("Orienting Ship for Orbital Insertion Burn");
 	}
 	//if (m_auto_pilot->error() < boost::numeric::ublas::norm_2(k_math::to_uvector3(m_auto_pilot->attenuation_angle()))) {
-	if (m_phase == tuningPhase && std::get<1>(m_remaining()) < 0) {
+	if ((m_phase == tuningPhase || m_phase == mainPhase) && std::get<1>(m_remaining()) < 0) {
 		m_control->set_throttle(0);
 		m_phase = completed;
 		logger.info("Completed Burn");
