@@ -1,9 +1,10 @@
 #include "Node.h"
 #include "../Math.h"
 
-NodeStage::NodeStage(const std::string& name, std::shared_ptr<MissionInfo> info, std::shared_ptr<SpaceCenter::Node> node)
+NodeStage::NodeStage(const std::string& name, std::shared_ptr<MissionInfo> info, std::shared_ptr<SpaceCenter::Node> node, const bool deleteNode)
 	: MissionStage(name, info)
 	, m_node(node)
+	, m_deleteNode(deleteNode)
 {
 	double delta_v = m_node->delta_v();
 	double F = m_vessel->available_thrust();
@@ -27,6 +28,9 @@ MissionStageStatus NodeStage::update() {
 		m_control->set_throttle(0);
 		m_phase = completed;
 		logger.info("Completed Burn");
+		if (m_deleteNode) {
+			m_node->remove();
+		}
 		return MissionStageStatus::Completed;
 	}
 	else if (m_phase == mainPhase && m_info->ut->operator()() > m_targetUt + m_burnTime - 0.3) {
