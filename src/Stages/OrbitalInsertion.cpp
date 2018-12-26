@@ -1,11 +1,13 @@
 #include "OrbitalInsertion.h"
 #include "../Math.h"
 
-OrbitalInsertionStage::OrbitalInsertionStage(const std::string& name, std::shared_ptr<MissionInfo> info)
+namespace Stages {
+
+OrbitalInsertion::OrbitalInsertion(const std::string& name, std::shared_ptr<MissionInfo> info)
 : MissionStage(name, info)
 { }
 
-void OrbitalInsertionStage::createManeuver() {
+void OrbitalInsertion::createManeuver() {
 	double GM = m_orbit->body().gravitational_parameter();
 	double r = m_orbit->apoapsis();
 	double a1 = m_orbit->semi_major_axis();
@@ -20,7 +22,7 @@ void OrbitalInsertionStage::createManeuver() {
 			)))));
 }
 
-MissionStageStatus OrbitalInsertionStage::update() {
+MissionStageStatus OrbitalInsertion::update() {
 	if (activate()) {
 		createManeuver();
 	}
@@ -29,4 +31,6 @@ MissionStageStatus OrbitalInsertionStage::update() {
 		return MissionStageStatus::Completed;
 	}
 	return MissionStageStatus::InProgress;
+}
+
 }

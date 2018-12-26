@@ -23,6 +23,8 @@ bool MissionPlaner::addStage(std::shared_ptr<MissionStage> stage) {
 }
 
 bool MissionPlaner::update() {
+	if (!m_current)
+		return false;
 	MissionStageStatus status = m_current->update();
 	if (status == MissionStageStatus::Completed)
 		if (m_current->m_next != NULL) {

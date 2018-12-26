@@ -13,6 +13,8 @@
 #define set_pitch_heading m_info->autopilot->target_pitch_and_heading
 #define surface_speed m_info->surface_speed->operator()
 
+namespace Stages {
+
 enum class MissionStageStatus {
 	Scheduled,
 	InProgress,
@@ -49,5 +51,7 @@ class CountdownStage : public MissionStage {
 	CountdownStage(const std::string& name, std::shared_ptr<MissionInfo> info);
 	CountdownStage(const std::string& name, std::shared_ptr<MissionInfo> info, double seconds);
 
-	MissionStageStatus update();
+	virtual MissionStageStatus update();
 };
+
+}

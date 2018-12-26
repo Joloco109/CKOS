@@ -3,6 +3,8 @@
 
 using krpc::services::SpaceCenter;
 
+namespace Stages {
+
 class NodeStage : public MissionStage {
 	enum BurnPhase {
 		scheduled, mainPhase, tuningPhase, completed
@@ -24,3 +26,5 @@ class NodeStage : public MissionStage {
 
 	MissionStageStatus update();
 };
+
+}

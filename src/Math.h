@@ -4,10 +4,10 @@
 #include <tuple>
 #include <cmath>
 
-#define boost_uvector3 boost::numeric::ublas::bounded_vector<double, 3>
-#define boost_uvector2 boost::numeric::ublas::bounded_vector<double, 2>
-#define boost_uvector3f boost::numeric::ublas::bounded_vector<float, 3>
-#define boost_uvector2f boost::numeric::ublas::bounded_vector<float, 2>
+typedef boost::numeric::ublas::bounded_vector<double, 3> boost_uvector3;
+typedef boost::numeric::ublas::bounded_vector<double, 2> boost_uvector2;
+typedef boost::numeric::ublas::bounded_vector<float, 3> boost_uvector3f;
+typedef boost::numeric::ublas::bounded_vector<float, 2> boost_uvector2f;
 
 typedef std::tuple<double, double, double> vector3;
 typedef std::tuple<float, float, float> vector3f;

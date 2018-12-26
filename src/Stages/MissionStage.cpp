@@ -1,5 +1,7 @@
 #include "MissionStage.h"
 
+namespace Stages {
+
 /*
  * Definitions of MissionStage
  *
@@ -65,4 +67,6 @@ MissionStageStatus CountdownStage::update() {
 		}
 	} 
 	return MissionStageStatus::InProgress;
+}
+
 }

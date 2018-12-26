@@ -1,6 +1,8 @@
 #include "Ascent.h"
 #include "../Math.h"
 
+namespace Stages {
+
 AscentStage::AscentStage(const std::string& name, std::shared_ptr<MissionInfo> info, 
 		double _targetApoapsis,
 		double _maxAoA,
@@ -88,4 +90,6 @@ void AscentStage::pilot() {
 	if (m_orbit->apoapsis_altitude() > 0.975*targetApoapsis)
 		m_control->set_throttle(0.1);
 	set_pitch_heading(pitch_heading[0], pitch_heading[1]);
+}
+
 }

@@ -35,20 +35,20 @@ void testConn() {
 	StreamLogger streamlogger(info);
 
 	MissionPlaner plan{info};
-	std::shared_ptr<MissionStage> firstStage = std::make_shared<AscentStage>(
+	std::shared_ptr<Stages::MissionStage> firstStage = std::make_shared<Stages::AscentStage>(
 			"Ascent",
 			info,
 			150000,
 			20,
 			90,
-			150,
-			2.5,
-			700,
+			200,
+			7.5,
+			500,
 			45,
-			1750,
+			1550,
 			90
 		);
-	std::shared_ptr<MissionStage> secondStage = std::make_shared<OrbitalInsertionStage>("Orbital Insertion", info);
+	std::shared_ptr<Stages::MissionStage> secondStage = std::make_shared<Stages::OrbitalInsertion>("Orbital Insertion", info);
 	plan.addStage(firstStage);
 	plan.addStage(secondStage);
 

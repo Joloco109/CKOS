@@ -7,6 +7,8 @@
 #include "Stages/MissionStage.h"
 #include "CKOS_Unit.h"
 
+using namespace Stages;
+
 class MissionPlaner : Unit {
 	std::shared_ptr<MissionStage> m_first;
 	std::shared_ptr<MissionStage> m_current;
