@@ -12,12 +12,16 @@ SuicideBurn::SuicideBurn(const std::string& name, std::shared_ptr<MissionInfo> i
 
 
 MissionStageStatus SuicideBurn::update() {
-	bool first = false;
 	if (activate()) {
 		m_auto_pilot->disengage();
 		m_control->set_sas(true);
 		m_control->set_sas_mode(SpaceCenter::SASMode::retrograde);
-		first = true;
+
+		pilot();
+		
+	}
+	else {
+		pilot();
 	}
 
 	int stage = m_control->current_stage();
@@ -26,14 +30,6 @@ MissionStageStatus SuicideBurn::update() {
 	
 	if (liquid_fuel < 0.1 && solid_fuel < 0.1) {
 		m_control->activate_next_stage();
-	}
-
-	pilot();
-
-	if (first) {
-		//double time = 
-
-		logger.info("Starting at Altitude: {}", altToBurn);
 	}
 
 	if (m_vessel->flight().surface_altitude() < 0.2) {
@@ -51,15 +47,21 @@ void SuicideBurn::pilot() {
 	float mass = m_vessel->mass();
 	float acc = Force/mass;
 	float g = m_orbit->body().surface_gravity();
-	vector3 v0 = m_info->spacecenter->transform_velocity(m_vessel->flight(m_orbit->body().reference_frame()).center_of_mass(), (*m_velocity)(), m_orbit->body().reference_frame(), m_vessel->surface_reference_frame());
-	double vx = sqrt(std::get<1>(v0)*std::get<1>(v0)+std::get<2>(v0)*std::get<2>(v0));
-	double vy = std::get<0>(v0);
-	altToBurn = -(
-			 pow(vy,2) / (acc-g)
-			-pow(vx,2) * (1-g/acc)/acc
-			 )/2;
+	
+	boost_uvector3 ey = k_math::to_uvector3(m_info->spacecenter->transform_direction(
+				std::make_tuple<double, double, double>(1,0,0),
+				m_vessel->surface_reference_frame(),
+				m_orbit->body().reference_frame()));
+	
+	boost_uvector3 v0 = k_math::to_uvector3((*m_velocity)());
+	double vy = boost::numeric::ublas::inner_prod(v0,ey);
+	boost_uvector3 vh = v0 - vy*ey;
+	double vx = boost::numeric::ublas::norm_2(vh);
+	vy = abs(vy);
 
-	if (altToBurn*1.2 < m_vessel->flight().surface_altitude() && sqrt(pow(vx,2) + pow(vy,2)) > 1)
+	altToBurn = vy*( vx/acc + vy/(acc-g));
+
+	if (altToBurn > m_vessel->flight().surface_altitude() && sqrt(pow(vx,2) + pow(vy,2)) > 1)
 		m_control->set_throttle(1);
 	else
 		m_control->set_throttle(0);
