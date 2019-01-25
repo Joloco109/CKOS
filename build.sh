@@ -1,10 +1,9 @@
 #!/bin/sh 
 
-mkdir build
+[ -d build ] || mkdir build
 set -e
 cd build
-if [ $1 -eq 0 ]
-then 
+if [ $# -eq 0 ]; then 
 	cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug ..
 	make
 else
