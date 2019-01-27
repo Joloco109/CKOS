@@ -1,0 +1,9 @@
+set (SOURCE ${SOURCE} 
+	${CMAKE_CURRENT_SOURCE_DIR}/BrakeCalculator.cpp 
+	PARENT_SCOPE
+) 
+
+set (HEADER ${HEADER} 
+	${CMAKE_CURRENT_SOURCE_DIR}/BrakeCalculator.h 
+	PARENT_SCOPE
+) 

@@ -1,4 +1,5 @@
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Stages)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Simulator)
 
 set (SOURCE ${SOURCE} 
 	${CMAKE_CURRENT_SOURCE_DIR}/Logger.cpp 
