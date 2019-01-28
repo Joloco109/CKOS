@@ -25,8 +25,8 @@ class Breaker {
 	double m_m0;
 	double m_g;
 
-	const std::unique_ptr<BreakerSystem> m_breaker_system;
-	const std::unique_ptr<BreakerObserver> m_breaker_observer;
+	const std::shared_ptr<BreakerSystem> m_breaker_system;
+	const std::shared_ptr<BreakerObserver> m_breaker_observer;
 
 	public:
 	Breaker(
@@ -39,8 +39,8 @@ class Breaker {
 	void set_g(double g);
 
 	odeint_2dstate standardTrajectory(
-			std::shared_ptr<krpc::services::SpaceCenter::Orbit> orbit,
-		       	std::shared_ptr<krpc::services::SpaceCenter::CelestialBody> body,
+			krpc::services::SpaceCenter::Orbit orbit,
+		       	krpc::services::SpaceCenter::CelestialBody body,
 			double t);
 
 	std::tuple<odeint_2dstate, double> burnStartLocTime(
@@ -53,6 +53,6 @@ class Breaker {
 
 	std::tuple<odeint_2dstate, double> burnStartLocTime(
 			double t0,
-			std::shared_ptr<krpc::services::SpaceCenter::Orbit> orbit,
-			std::shared_ptr<krpc::services::SpaceCenter::CelestialBody> body);
+			krpc::services::SpaceCenter::Orbit orbit,
+			krpc::services::SpaceCenter::CelestialBody body);
 };

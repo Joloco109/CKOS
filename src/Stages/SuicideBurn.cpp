@@ -8,6 +8,7 @@ namespace Stages {
 SuicideBurn::SuicideBurn(const std::string& name, std::shared_ptr<MissionInfo> info) 
 	: MissionStage(name, info)
 	, m_velocity(std::make_shared<krpc::Stream<vector3>>(m_vessel->flight(m_orbit->body().reference_frame()).velocity_stream()))
+	, m_breaker(m_info->spacecenter,m_info->vessel, 0,0,0)
 { }
 
 
@@ -39,6 +40,7 @@ MissionStageStatus SuicideBurn::update() {
 		logger.info("Landing Comlplete");
 		return MissionStageStatus::Completed;
 	}
+
 	return MissionStageStatus::InProgress;
 }
 
@@ -65,6 +67,15 @@ void SuicideBurn::pilot() {
 		m_control->set_throttle(1);
 	else
 		m_control->set_throttle(0);
+
+	m_breaker.set_F(Force);
+	m_breaker.set_m0(mass);
+	m_breaker.set_g(g);
+
+	auto startLocTime = m_breaker.burnStartLocTime((*m_info->ut)(), m_vessel->orbit(), m_vessel->orbit().body());
+	odeint_2dstate startX = std::get<0>(startLocTime);
+	double startT = std::get<1>(startLocTime);
+	std::cout << "Time to burn " << (startT - (*m_info->ut)()) << "" << std::endl;
 }
 
 }

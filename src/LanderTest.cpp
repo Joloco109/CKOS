@@ -7,10 +7,10 @@
 #include <krpc/services/space_center.hpp>
 
 #include "Logger.h"
-#include "MissionPlan.h"
 #include "MissionInfo.h"
-#include "StreamLogger.h"
 #include "Stages/SuicideBurn.h"
+#include "MissionPlan.h"
+#include "StreamLogger.h"
 
 void testConn() {
 	std::shared_ptr<Logger> logger = std::make_shared<Logger>("Main");

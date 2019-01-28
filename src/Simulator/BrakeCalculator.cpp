@@ -76,8 +76,8 @@ void Breaker::BreakerObserver::operator() (const odeint_2dstate& x, const double
 }
 
 odeint_2dstate Breaker::standardTrajectory(
-		std::shared_ptr<krpc::services::SpaceCenter::Orbit> orbit,
-		std::shared_ptr<krpc::services::SpaceCenter::CelestialBody> body,
+		krpc::services::SpaceCenter::Orbit orbit,
+		krpc::services::SpaceCenter::CelestialBody body,
 		double t)
 {
 	odeint_2dstate out;
@@ -86,8 +86,8 @@ odeint_2dstate Breaker::standardTrajectory(
 	auto ey = boost::numeric::ublas::unit_vector<double>(3,0);
 	
 	auto frame = m_vessel->surface_reference_frame();
-	auto pos = k_math::to_uvector3(orbit->position_at(t,frame));
-	auto pos_dt = k_math::to_uvector3(orbit->position_at(t+dt,frame));
+	auto pos = k_math::to_uvector3(orbit.position_at(t,frame));
+	auto pos_dt = k_math::to_uvector3(orbit.position_at(t+dt,frame));
 	auto vel = (pos_dt-pos)/dt;
 	
 	auto posy = boost::numeric::ublas::inner_prod(pos, ey)*ey;
@@ -138,8 +138,8 @@ std::tuple<odeint_2dstate, double>Breaker::burnStartLocTime(
 
 std::tuple<odeint_2dstate, double>Breaker::burnStartLocTime(
 		double t0,
-		std::shared_ptr<krpc::services::SpaceCenter::Orbit> orbit,
-		std::shared_ptr<krpc::services::SpaceCenter::CelestialBody> body)
+		krpc::services::SpaceCenter::Orbit orbit,
+		krpc::services::SpaceCenter::CelestialBody body)
 {
 	std::function<odeint_2dstate(double)> trajectory = std::bind(&Breaker::standardTrajectory, this, orbit, body, std::placeholders::_1);
 	return burnStartLocTime(t0,trajectory);
