@@ -76,6 +76,8 @@ void SuicideBurn::pilot() {
 	odeint_2dstate startX = std::get<0>(startLocTime);
 	double startT = std::get<1>(startLocTime);
 	std::cout << "Time to burn " << (startT - (*m_info->ut)()) << "" << std::endl;
+	std::cout << "Landing location (" << startX[0] << "," << startX[1] << ")" << std::endl;
+	std::cout << "Landing speed (" << startX[2] << "," << startX[3] << ")" << std::endl;
 }
 
 }
