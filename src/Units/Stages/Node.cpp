@@ -1,5 +1,6 @@
 #include "Node.h"
-#include "../Math.h"
+
+#include "../../Base/KMath.h"
 
 namespace Stages {
 

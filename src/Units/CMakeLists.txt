@@ -1,0 +1,9 @@
+set (SOURCE ${SOURCE} 
+	${CMAKE_CURRENT_SOURCE_DIR}/CKOS_Unit.cpp 
+) 
+
+set (HEADER ${HEADER} 
+	${CMAKE_CURRENT_SOURCE_DIR}/CKOS_Unit.h 
+) 
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Stages)

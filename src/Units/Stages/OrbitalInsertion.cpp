@@ -1,5 +1,4 @@
 #include "OrbitalInsertion.h"
-#include "../Math.h"
 
 namespace Stages {
 

@@ -1,5 +1,6 @@
 #include "Ascent.h"
-#include "../Math.h"
+
+#include "../../Base/KMath.h"
 
 namespace Stages {
 

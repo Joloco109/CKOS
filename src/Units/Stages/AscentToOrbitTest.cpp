@@ -6,11 +6,13 @@
 #include <krpc/services/krpc.hpp>
 #include <krpc/services/space_center.hpp>
 
-#include "Logger.h"
-#include "MissionInfo.h"
-#include "Stages/SuicideBurn.h"
-#include "MissionPlan.h"
-#include "StreamLogger.h"
+#include "../../Base/Logger.h"
+#include "../../Base/StreamLogger.h"
+
+#include "MissionStage.h"
+#include "Ascent.h"
+#include "OrbitalInsertion.h"
+#include "Node.h"
 
 void testConn() {
 	std::shared_ptr<Logger> logger = std::make_shared<Logger>("Main");
@@ -33,8 +35,22 @@ void testConn() {
 	StreamLogger streamlogger(info);
 
 	MissionPlaner plan{info};
-	std::shared_ptr<Stages::MissionStage> suicideBurn = std::make_shared<Stages::SuicideBurn>("Hover Slam", info);
-	plan.addStage(suicideBurn);
+	std::shared_ptr<Stages::MissionStage> firstStage = std::make_shared<Stages::AscentStage>(
+			"Ascent",
+			info,
+			150000,
+			20,
+			90,
+			200,
+			7.5,
+			500,
+			45,
+			1550,
+			90
+		);
+	std::shared_ptr<Stages::MissionStage> secondStage = std::make_shared<Stages::OrbitalInsertion>("Orbital Insertion", info);
+	plan.addStage(firstStage);
+	plan.addStage(secondStage);
 
 	streamlogger.log_start();
 	while (plan.update());

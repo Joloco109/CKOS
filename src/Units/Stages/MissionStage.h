@@ -3,7 +3,7 @@
 #include <krpc/services/krpc.hpp>
 #include <memory>
 
-#include "../MissionInfo.h"
+#include "../../Base/MissionInfo.h"
 #include "../CKOS_Unit.h"
 
 #define m_vessel m_info->vessel
@@ -55,3 +55,20 @@ class CountdownStage : public MissionStage {
 };
 
 }
+
+using namespace Stages;
+
+class MissionPlaner : Unit {
+	std::shared_ptr<MissionStage> m_first;
+	std::shared_ptr<MissionStage> m_current;
+	std::shared_ptr<MissionInfo> m_info;
+
+	public:
+	MissionPlaner(std::shared_ptr<MissionInfo> info);
+
+	bool addStage(std::shared_ptr<MissionStage> stage);
+
+	bool update();
+
+	std::shared_ptr<MissionStage> current() const;
+};

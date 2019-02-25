@@ -1,7 +1,9 @@
 #pragma once
-#include "../Simulator/BrakeCalculator.h"
+
+#include "../../Simulator/BrakeCalculator.h"
 #include "MissionStage.h"
-#include "../Math.h"
+
+#include "../../Base/KMath.h"
 
 namespace Stages {
 

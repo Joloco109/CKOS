@@ -1,7 +1,6 @@
 #include <cmath>
 
 #include "SuicideBurn.h"
-#include "../Math.h"
 
 namespace Stages {
 
