@@ -3,8 +3,6 @@
 #include <krpc.hpp>
 #include <krpc/services/space_center.hpp>
 
-#include <boost/numeric/odeint.hpp>
-
 #include <boost/numeric/ublas/vector.hpp>
 
 typedef boost::numeric::ublas::bounded_vector<double, 4> odeint_2dstate;

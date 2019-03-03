@@ -9,12 +9,9 @@ set( CMAKE_EXPORT_COMPILE_COMMANDS ON)
 #set(Boost_USE_STATIC_RUNTIME OFF)
 #find_package(Boost 1.68 COMPONENTS uBLAS)
 
-#set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wpedantic -Wno-misleading-indentation -std=c++11 -L/home/joloco/Games/KSP/Code/C++/CKOS/lib/krpc-lkrpc -lprotobuf -pthread")
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wpedantic -Wno-misleading-indentation -std=c++11 -lprotobuf -pthread")
 
-
 link_directories("${PROJECT_SOURCE_DIR}/lib/krpc")
-find_library(krpc krpc)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 

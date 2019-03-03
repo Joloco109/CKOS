@@ -1,9 +1,3 @@
-set (SOURCE ${SOURCE} 
-	${CMAKE_CURRENT_SOURCE_DIR}/BrakeCalculator.cpp 
-	PARENT_SCOPE
-) 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-set (HEADER ${HEADER} 
-	${CMAKE_CURRENT_SOURCE_DIR}/BrakeCalculator.h 
-	PARENT_SCOPE
-) 
+add_library(CKOSSimulator STATIC BrakeCalculator.cpp Interface.cpp)

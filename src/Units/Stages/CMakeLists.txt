@@ -17,10 +17,6 @@ add_executable (${PROJECT_NAME}_Lander ${SOURCE}
 	${CMAKE_CURRENT_SOURCE_DIR}/SuicideBurn.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/LanderTest.cpp)
 
-#message("Using kRPC at location: ${krpc}")
-
-find_library(krpc krpc)
-#target_link_libraries(${PROJECT_NAME}_AscentToOrbit PUBLIC CKOSBase "${kprc}")
-target_link_libraries(${PROJECT_NAME}_AscentToOrbit PUBLIC CKOSBase /usr/local/lib/libkrpc.so)
+target_link_libraries(${PROJECT_NAME}_AscentToOrbit PUBLIC CKOSBase ${CMAKE_SOURCE_DIR}/lib/krpc/libkrpc.so)
 #target_link_libraries(${PROJECT_NAME}_Lander PUBLIC CKOSBase "${kprc}")
-target_link_libraries(${PROJECT_NAME}_Lander PUBLIC CKOSBase /usr/local/lib/libkrpc.so)
+target_link_libraries(${PROJECT_NAME}_Lander PUBLIC CKOSBase ${CMAKE_SOURCE_DIR}/lib/krpc/libkrpc.so CKOSSimulator)

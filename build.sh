@@ -1,8 +1,8 @@
 #!/bin/sh 
 
-[ -d build ] || mkdir build
+[ -d debug ] || mkdir debug
 set -e
-cd build
+cd debug
 if [ $# -eq 0 ]; then 
 	cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug ..
 	make
