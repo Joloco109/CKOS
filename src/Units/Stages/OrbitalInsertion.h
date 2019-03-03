@@ -4,7 +4,9 @@
 
 using krpc::services::SpaceCenter;
 
-class OrbitalInsertionStage : public MissionStage {
+namespace Stages {
+
+class OrbitalInsertion : public MissionStage {
 	double targetUt;
 	double burnTime;
 
@@ -17,9 +19,11 @@ class OrbitalInsertionStage : public MissionStage {
 	std::unique_ptr<NodeStage> m_node;
 
 	public:
-	OrbitalInsertionStage(const std::string& name, std::shared_ptr<MissionInfo> info);
+	OrbitalInsertion(const std::string& name, std::shared_ptr<MissionInfo> info);
 
 	std::shared_ptr<SpaceCenter::Node> getNode();
 
 	MissionStageStatus update();
 };
+
+}

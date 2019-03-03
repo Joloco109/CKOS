@@ -1,9 +1,9 @@
 #!/bin/sh 
 
-rm -r debug
-mkdir debug
+rm -r release
+mkdir release
 set -e
-cd debug
+cd release
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug ..
 make
 cp compile_commands.json ..

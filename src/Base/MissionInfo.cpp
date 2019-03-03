@@ -1,5 +1,5 @@
 #include "MissionInfo.h"
-#include "Math.h"
+#include "KMath.h"
 #include <functional>
 
 using krpc::services::SpaceCenter;

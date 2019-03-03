@@ -1,4 +1,4 @@
-#include "Math.h"
+#include "KMath.h"
 
 namespace k_math {
 	using namespace boost::numeric::ublas;

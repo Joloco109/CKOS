@@ -3,7 +3,7 @@
 #include <krpc/services/krpc.hpp>
 #include <memory>
 
-#include "../MissionInfo.h"
+#include "../../Base/MissionInfo.h"
 #include "../CKOS_Unit.h"
 
 #define m_vessel m_info->vessel
@@ -12,6 +12,8 @@
 #define m_auto_pilot m_info->autopilot
 #define set_pitch_heading m_info->autopilot->target_pitch_and_heading
 #define surface_speed m_info->surface_speed->operator()
+
+namespace Stages {
 
 enum class MissionStageStatus {
 	Scheduled,
@@ -49,5 +51,24 @@ class CountdownStage : public MissionStage {
 	CountdownStage(const std::string& name, std::shared_ptr<MissionInfo> info);
 	CountdownStage(const std::string& name, std::shared_ptr<MissionInfo> info, double seconds);
 
-	MissionStageStatus update();
+	virtual MissionStageStatus update();
+};
+
+}
+
+using namespace Stages;
+
+class MissionPlaner : Unit {
+	std::shared_ptr<MissionStage> m_first;
+	std::shared_ptr<MissionStage> m_current;
+	std::shared_ptr<MissionInfo> m_info;
+
+	public:
+	MissionPlaner(std::shared_ptr<MissionInfo> info);
+
+	bool addStage(std::shared_ptr<MissionStage> stage);
+
+	bool update();
+
+	std::shared_ptr<MissionStage> current() const;
 };

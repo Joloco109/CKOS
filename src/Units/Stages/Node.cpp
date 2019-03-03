@@ -1,5 +1,8 @@
 #include "Node.h"
-#include "../Math.h"
+
+#include "../../Base/KMath.h"
+
+namespace Stages {
 
 NodeStage::NodeStage(const std::string& name, std::shared_ptr<MissionInfo> info, std::shared_ptr<SpaceCenter::Node> node, const bool deleteNode)
 	: MissionStage(name, info)
@@ -46,4 +49,6 @@ MissionStageStatus NodeStage::update() {
 	}
 	//}
 	return MissionStageStatus::InProgress;
+}
+
 }

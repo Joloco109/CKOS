@@ -6,13 +6,13 @@
 #include <krpc/services/krpc.hpp>
 #include <krpc/services/space_center.hpp>
 
-#include "Logger.h"
-#include "MissionPlan.h"
-#include "MissionInfo.h"
-#include "Stages/Ascent.h"
-#include "Stages/OrbitalInsertion.h"
-#include "Stages/Node.h"
-#include "StreamLogger.h"
+#include "../../Base/Logger.h"
+#include "../../Base/StreamLogger.h"
+
+#include "MissionStage.h"
+#include "Ascent.h"
+#include "OrbitalInsertion.h"
+#include "Node.h"
 
 void testConn() {
 	std::shared_ptr<Logger> logger = std::make_shared<Logger>("Main");
@@ -35,20 +35,20 @@ void testConn() {
 	StreamLogger streamlogger(info);
 
 	MissionPlaner plan{info};
-	std::shared_ptr<MissionStage> firstStage = std::make_shared<AscentStage>(
+	std::shared_ptr<Stages::MissionStage> firstStage = std::make_shared<Stages::AscentStage>(
 			"Ascent",
 			info,
 			150000,
 			20,
 			90,
-			150,
-			2.5,
-			700,
+			200,
+			7.5,
+			500,
 			45,
-			1750,
+			1550,
 			90
 		);
-	std::shared_ptr<MissionStage> secondStage = std::make_shared<OrbitalInsertionStage>("Orbital Insertion", info);
+	std::shared_ptr<Stages::MissionStage> secondStage = std::make_shared<Stages::OrbitalInsertion>("Orbital Insertion", info);
 	plan.addStage(firstStage);
 	plan.addStage(secondStage);
 

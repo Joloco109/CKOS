@@ -2,6 +2,8 @@
 #include "MissionStage.h"
 #include <limits.hpp>
 
+namespace Stages {
+
 class AscentStage : public MissionStage {
 	double targetApoapsis;
 	double maxAoA;
@@ -37,5 +39,7 @@ class AscentStage : public MissionStage {
 		double _endTurnAngle = 90
 			);
 
-	MissionStageStatus update();
+	MissionStageStatus update() override;
 };
+
+}
