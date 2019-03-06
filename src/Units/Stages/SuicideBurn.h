@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Simulator/BrakeCalculator.h"
+#include "../../Guidance/BrakeCalculator.h"
 #include "MissionStage.h"
 
 #include "../../Base/KMath.h"

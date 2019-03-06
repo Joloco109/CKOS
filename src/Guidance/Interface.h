@@ -14,7 +14,7 @@ namespace Simulator {
 	typedef boost::numeric::ublas::bounded_vector<double, 4> state2;
 	typedef boost::numeric::ublas::bounded_vector<double, 6> state3;
 
-	std::vector<state2> integrate2d(std::function<vector2(double)> F, state2 s0);
+	std::vector<state2> integrateOrbital2d(std::function<vector2(double)> F, double mu, state2 s0);
 	std::vector<state3> integrate3d(std::function<vector3(double)> F, state3 s0);
 
 }

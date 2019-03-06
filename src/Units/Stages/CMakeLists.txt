@@ -19,4 +19,4 @@ add_executable (${PROJECT_NAME}_Lander ${SOURCE}
 
 target_link_libraries(${PROJECT_NAME}_AscentToOrbit PUBLIC CKOSBase ${CMAKE_SOURCE_DIR}/lib/krpc/libkrpc.so)
 #target_link_libraries(${PROJECT_NAME}_Lander PUBLIC CKOSBase "${kprc}")
-target_link_libraries(${PROJECT_NAME}_Lander PUBLIC CKOSBase ${CMAKE_SOURCE_DIR}/lib/krpc/libkrpc.so CKOSSimulator)
+target_link_libraries(${PROJECT_NAME}_Lander PUBLIC CKOSBase ${CMAKE_SOURCE_DIR}/lib/krpc/libkrpc.so CKOSGuidance)
